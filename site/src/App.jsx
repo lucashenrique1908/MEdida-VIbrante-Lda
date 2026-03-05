@@ -26,9 +26,19 @@ const PUBLIC_ROUTES = [
 // Acesse no navegador: /acesso-empresa-medida-virante-portal-privado
 
 function App() {
-	const [path, setPath] = useState(
-		window.location.hash.replace("#", "") || "/",
-	);
+	const getPath = () => window.location.hash.replace("#", "") || "/";
+
+	const [path, setPath] = useState(getPath());
+
+	useEffect(() => {
+		const onHashChange = () => {
+			setPath(getPath());
+		};
+
+		window.addEventListener("hashchange", onHashChange);
+
+		return () => window.removeEventListener("hashchange", onHashChange);
+	}, []);
 	const [theme, setTheme] = useState(
 		localStorage.getItem(KEYS.theme) || "light",
 	);
