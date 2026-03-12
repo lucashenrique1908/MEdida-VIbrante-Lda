@@ -66,6 +66,58 @@ const FALLBACK_IMAGE =
 	"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=60";
 // Número para onde o formulário comercial é encaminhado via WhatsApp.
 const WHATSAPP_NUMBER = "351967722023";
+// Lista de países com bandeira, prefixo e aliases para pesquisa flexível.
+const PHONE_COUNTRIES = [
+	{ code: "PT", flag: "🇵🇹", dialCode: "+351", name: "Portugal", aliases: ["portugal", "portugalia", "portugese republic"] },
+	{ code: "ES", flag: "🇪🇸", dialCode: "+34", name: "Spain", aliases: ["espanha", "espana", "spain"] },
+	{ code: "FR", flag: "🇫🇷", dialCode: "+33", name: "France", aliases: ["franca", "france", "francia"] },
+	{ code: "DE", flag: "🇩🇪", dialCode: "+49", name: "Germany", aliases: ["alemanha", "germany", "deutschland"] },
+	{ code: "IT", flag: "🇮🇹", dialCode: "+39", name: "Italy", aliases: ["italia", "italy"] },
+	{ code: "GB", flag: "🇬🇧", dialCode: "+44", name: "United Kingdom", aliases: ["reino unido", "uk", "england", "great britain", "united kingdom"] },
+	{ code: "IE", flag: "🇮🇪", dialCode: "+353", name: "Ireland", aliases: ["irlanda", "ireland"] },
+	{ code: "NL", flag: "🇳🇱", dialCode: "+31", name: "Netherlands", aliases: ["paises baixos", "netherlands", "holland", "holanda"] },
+	{ code: "BE", flag: "🇧🇪", dialCode: "+32", name: "Belgium", aliases: ["belgica", "belgium", "belgique"] },
+	{ code: "LU", flag: "🇱🇺", dialCode: "+352", name: "Luxembourg", aliases: ["luxemburgo", "luxembourg"] },
+	{ code: "CH", flag: "🇨🇭", dialCode: "+41", name: "Switzerland", aliases: ["suica", "switzerland", "suisse", "schweiz"] },
+	{ code: "AT", flag: "🇦🇹", dialCode: "+43", name: "Austria", aliases: ["austria", "osterreich"] },
+	{ code: "SE", flag: "🇸🇪", dialCode: "+46", name: "Sweden", aliases: ["suecia", "sweden", "sverige"] },
+	{ code: "NO", flag: "🇳🇴", dialCode: "+47", name: "Norway", aliases: ["noruega", "norway", "norge"] },
+	{ code: "DK", flag: "🇩🇰", dialCode: "+45", name: "Denmark", aliases: ["dinamarca", "denmark", "danmark"] },
+	{ code: "FI", flag: "🇫🇮", dialCode: "+358", name: "Finland", aliases: ["finlandia", "finland", "suomi"] },
+	{ code: "PL", flag: "🇵🇱", dialCode: "+48", name: "Poland", aliases: ["polonia", "poland"] },
+	{ code: "CZ", flag: "🇨🇿", dialCode: "+420", name: "Czechia", aliases: ["republica checa", "czech republic", "czechia", "chequia"] },
+	{ code: "RO", flag: "🇷🇴", dialCode: "+40", name: "Romania", aliases: ["romenia", "romania"] },
+	{ code: "BG", flag: "🇧🇬", dialCode: "+359", name: "Bulgaria", aliases: ["bulgaria"] },
+	{ code: "GR", flag: "🇬🇷", dialCode: "+30", name: "Greece", aliases: ["grecia", "greece", "ellas"] },
+	{ code: "TR", flag: "🇹🇷", dialCode: "+90", name: "Turkey", aliases: ["turquia", "turkey", "turkiye"] },
+	{ code: "US", flag: "🇺🇸", dialCode: "+1", name: "United States", aliases: ["estados unidos", "usa", "us", "united states", "america"] },
+	{ code: "CA", flag: "🇨🇦", dialCode: "+1", name: "Canada", aliases: ["canada"] },
+	{ code: "MX", flag: "🇲🇽", dialCode: "+52", name: "Mexico", aliases: ["mexico", "méxico"] },
+	{ code: "BR", flag: "🇧🇷", dialCode: "+55", name: "Brazil", aliases: ["brasil", "brazil"] },
+	{ code: "AR", flag: "🇦🇷", dialCode: "+54", name: "Argentina", aliases: ["argentina"] },
+	{ code: "CL", flag: "🇨🇱", dialCode: "+56", name: "Chile", aliases: ["chile"] },
+	{ code: "CO", flag: "🇨🇴", dialCode: "+57", name: "Colombia", aliases: ["colombia"] },
+	{ code: "PE", flag: "🇵🇪", dialCode: "+51", name: "Peru", aliases: ["peru", "perú"] },
+	{ code: "VE", flag: "🇻🇪", dialCode: "+58", name: "Venezuela", aliases: ["venezuela"] },
+	{ code: "MA", flag: "🇲🇦", dialCode: "+212", name: "Morocco", aliases: ["marrocos", "morocco", "marruecos"] },
+	{ code: "DZ", flag: "🇩🇿", dialCode: "+213", name: "Algeria", aliases: ["argelia", "algeria", "algérie"] },
+	{ code: "TN", flag: "🇹🇳", dialCode: "+216", name: "Tunisia", aliases: ["tunisia", "tunisia", "tunisie"] },
+	{ code: "AO", flag: "🇦🇴", dialCode: "+244", name: "Angola", aliases: ["angola"] },
+	{ code: "MZ", flag: "🇲🇿", dialCode: "+258", name: "Mozambique", aliases: ["mozambique", "moçambique"] },
+	{ code: "CV", flag: "🇨🇻", dialCode: "+238", name: "Cape Verde", aliases: ["cabo verde", "cape verde"] },
+	{ code: "GW", flag: "🇬🇼", dialCode: "+245", name: "Guinea-Bissau", aliases: ["guine bissau", "guinea-bissau", "guine-bissau"] },
+	{ code: "ST", flag: "🇸🇹", dialCode: "+239", name: "Sao Tome and Principe", aliases: ["sao tome", "sao tome e principe", "são tomé", "são tomé e príncipe"] },
+	{ code: "ZA", flag: "🇿🇦", dialCode: "+27", name: "South Africa", aliases: ["africa do sul", "south africa"] },
+	{ code: "AE", flag: "🇦🇪", dialCode: "+971", name: "United Arab Emirates", aliases: ["emirados arabes unidos", "uae", "emirates", "united arab emirates"] },
+	{ code: "SA", flag: "🇸🇦", dialCode: "+966", name: "Saudi Arabia", aliases: ["arabia saudita", "saudi arabia"] },
+	{ code: "QA", flag: "🇶🇦", dialCode: "+974", name: "Qatar", aliases: ["qatar", "catar"] },
+	{ code: "IN", flag: "🇮🇳", dialCode: "+91", name: "India", aliases: ["india", "índia", "bharat"] },
+	{ code: "CN", flag: "🇨🇳", dialCode: "+86", name: "China", aliases: ["china", "zhongguo"] },
+	{ code: "JP", flag: "🇯🇵", dialCode: "+81", name: "Japan", aliases: ["japao", "japão", "japan", "nihon"] },
+	{ code: "KR", flag: "🇰🇷", dialCode: "+82", name: "South Korea", aliases: ["coreia do sul", "south korea", "korea"] },
+	{ code: "AU", flag: "🇦🇺", dialCode: "+61", name: "Australia", aliases: ["australia"] },
+	{ code: "NZ", flag: "🇳🇿", dialCode: "+64", name: "New Zealand", aliases: ["nova zelandia", "new zealand"] },
+];
 
 // Referências para as áreas de projetos e modais.
 const previewGrid = document.getElementById("preview-grid");
@@ -82,6 +134,21 @@ const photoLightboxImage = document.getElementById("photo-lightbox-image");
 const marqueeTrack = document.getElementById("marquee-track");
 const serviceSelect = document.getElementById("servico-select");
 const form = document.getElementById("contact-form");
+const nifInput = document.getElementById("nif");
+const nifFeedback = document.getElementById("nif-feedback");
+const emailInput = document.getElementById("email");
+const emailFeedback = document.getElementById("email-feedback");
+const phoneField = document.getElementById("phone-field");
+const phoneCountryButton = document.getElementById("phone-country-button");
+const phoneCountryFlag = document.getElementById("phone-country-flag");
+const phoneCountryCode = document.getElementById("phone-country-code");
+const phoneCountryInput = document.getElementById("phone-country");
+const phoneNumberInput = document.getElementById("phone-number");
+const phoneHiddenInput = document.getElementById("telefone");
+const phoneFeedback = document.getElementById("phone-feedback");
+const phoneCountryPanel = document.getElementById("phone-country-panel");
+const phoneCountrySearch = document.getElementById("phone-country-search");
+const phoneCountryList = document.getElementById("phone-country-list");
 // Referências do cabeçalho. O JS altera classes, atributos ARIA e o logótipo.
 const siteHeader = document.querySelector(".site-header");
 const themeToggle = document.getElementById("theme-toggle");
@@ -101,6 +168,293 @@ let db = null;
 // O JS troca estas imagens em applyTheme() quando o utilizador alterna o tema.
 const LOGO_LIGHT = "img/projetos/slogan.png";
 const LOGO_DARK = "img/projetos/sloganVersao2.png";
+let selectedPhoneCountry =
+	PHONE_COUNTRIES.find((country) => country.code === "PT") || PHONE_COUNTRIES[0];
+
+// Normaliza texto para permitir pesquisa de países sem acentos e com nomes alternativos.
+function normalizeText(value) {
+	return String(value || "")
+		.normalize("NFD")
+		.replace(/\p{Diacritic}/gu, "")
+		.toLowerCase()
+		.trim();
+}
+
+// Mostra um feedback subtil por baixo de um campo validado pelo JavaScript.
+function setFieldFeedback(element, message, state = "") {
+	if (!element) {
+		return;
+	}
+	element.textContent = message;
+	element.classList.remove("is-valid", "is-invalid");
+	if (state) {
+		element.classList.add(state === "valid" ? "is-valid" : "is-invalid");
+	}
+}
+
+// Validação algorítmica de NIF português com 9 dígitos e dígito de controlo.
+function validarNIF(nif) {
+	if (!/^\d{9}$/.test(nif)) return false;
+
+	let total = 0;
+	for (let index = 0; index < 8; index += 1) {
+		total += Number(nif[index]) * (9 - index);
+	}
+
+	const resto = total % 11;
+	let digito = 11 - resto;
+	if (digito >= 10) digito = 0;
+
+	return digito === Number(nif[8]);
+}
+
+// Validação leve do email, conforme pedido, garantindo pelo menos estrutura básica com @.
+function validarEmail(email) {
+	return /^[^\s@]+@[^\s@]+$/.test(String(email || "").trim());
+}
+
+// Mantém apenas dígitos no NIF e impede mais de 9 caracteres.
+function sanitizeNifInput() {
+	if (!nifInput) {
+		return;
+	}
+	nifInput.value = nifInput.value.replace(/\D/g, "").slice(0, 9);
+}
+
+// Apresenta o estado atual do NIF por baixo do campo sem usar alert().
+function updateNifFeedback() {
+	if (!nifInput) {
+		return true;
+	}
+
+	sanitizeNifInput();
+	const nif = nifInput.value.trim();
+
+	if (!nif) {
+		nifInput.setCustomValidity("Preencha o NIF.");
+		setFieldFeedback(nifFeedback, "");
+		return false;
+	}
+
+	if (validarNIF(nif)) {
+		nifInput.setCustomValidity("");
+		setFieldFeedback(nifFeedback, "✓ NIF válido", "valid");
+		return true;
+	}
+
+	nifInput.setCustomValidity("NIF inválido.");
+	setFieldFeedback(nifFeedback, "✕ NIF inválido", "invalid");
+	return false;
+}
+
+// Apresenta o estado atual do email por baixo do campo com feedback discreto.
+function updateEmailFeedback() {
+	if (!emailInput) {
+		return true;
+	}
+
+	const email = emailInput.value.trim();
+	if (!email) {
+		emailInput.setCustomValidity("Preencha o email.");
+		setFieldFeedback(emailFeedback, "");
+		return false;
+	}
+
+	if (validarEmail(email)) {
+		emailInput.setCustomValidity("");
+		setFieldFeedback(emailFeedback, "✓ Email válido", "valid");
+		return true;
+	}
+
+	emailInput.setCustomValidity("Email inválido.");
+	setFieldFeedback(emailFeedback, "✕ Email inválido", "invalid");
+	return false;
+}
+
+// Atualiza o botão do país e o valor final do telefone enviado no formulário.
+function syncPhoneValue() {
+	if (!selectedPhoneCountry || !phoneCountryFlag || !phoneCountryCode) {
+		return;
+	}
+
+	phoneCountryFlag.textContent = selectedPhoneCountry.flag;
+	phoneCountryCode.textContent = selectedPhoneCountry.dialCode;
+	phoneCountryInput.value = selectedPhoneCountry.code;
+
+	const rawNumber = phoneNumberInput.value.replace(/[^\d\s()-]/g, "").trim();
+	phoneNumberInput.value = rawNumber;
+	phoneHiddenInput.value = rawNumber
+		? `${selectedPhoneCountry.dialCode} ${rawNumber}`
+		: "";
+}
+
+// Feedback subtil do telefone; exige país escolhido e número preenchido.
+function updatePhoneFeedback() {
+	if (!phoneNumberInput) {
+		return true;
+	}
+
+	syncPhoneValue();
+	const hasCountry = Boolean(selectedPhoneCountry);
+	const hasPhone = Boolean(phoneNumberInput.value.trim());
+
+	if (!hasCountry || !hasPhone) {
+		phoneNumberInput.setCustomValidity("Preencha o telefone e selecione o país.");
+		if (phoneNumberInput.value.trim()) {
+			setFieldFeedback(
+				phoneFeedback,
+				"✕ Escolha o país e complete o número",
+				"invalid",
+			);
+		} else {
+			setFieldFeedback(phoneFeedback, "");
+		}
+		return false;
+	}
+
+	phoneNumberInput.setCustomValidity("");
+	setFieldFeedback(
+		phoneFeedback,
+		`✓ Telefone pronto com ${selectedPhoneCountry.dialCode}`,
+		"valid",
+	);
+	return true;
+}
+
+// Filtra países pelo nome principal, aliases e variações sem acentos.
+function getFilteredCountries(query) {
+	const normalizedQuery = normalizeText(query);
+	if (!normalizedQuery) {
+		return PHONE_COUNTRIES;
+	}
+
+	return PHONE_COUNTRIES.filter((country) => {
+		const haystack = normalizeText(
+			`${country.name} ${country.aliases.join(" ")} ${country.dialCode} ${country.code}`,
+		);
+		return haystack.includes(normalizedQuery);
+	});
+}
+
+// Desenha a lista clicável de países dentro do painel do telefone.
+function renderPhoneCountryOptions(query = "") {
+	if (!phoneCountryList) {
+		return;
+	}
+
+	const countries = getFilteredCountries(query);
+	phoneCountryList.innerHTML = "";
+
+	if (!countries.length) {
+		phoneCountryList.innerHTML =
+			'<div class="phone-country-empty">Nenhum país encontrado.</div>';
+		return;
+	}
+
+	countries.forEach((country) => {
+		const option = document.createElement("button");
+		option.type = "button";
+		option.className = "phone-country-option";
+		option.innerHTML = `
+			<span>${country.flag}</span>
+			<span>
+				<strong>${country.name}</strong><br />
+				<small>${country.code}</small>
+			</span>
+			<span class="phone-country-option-code">${country.dialCode}</span>
+		`;
+		option.addEventListener("click", () => {
+			selectedPhoneCountry = country;
+			syncPhoneValue();
+			updatePhoneFeedback();
+			closePhoneCountryPanel();
+			phoneNumberInput.focus();
+		});
+		phoneCountryList.appendChild(option);
+	});
+}
+
+function openPhoneCountryPanel() {
+	if (!phoneCountryPanel || !phoneCountryButton) {
+		return;
+	}
+	phoneCountryPanel.hidden = false;
+	phoneCountryButton.setAttribute("aria-expanded", "true");
+	renderPhoneCountryOptions(phoneCountrySearch.value);
+	window.requestAnimationFrame(() => {
+		phoneCountrySearch.focus();
+	});
+}
+
+function closePhoneCountryPanel() {
+	if (!phoneCountryPanel || !phoneCountryButton) {
+		return;
+	}
+	phoneCountryPanel.hidden = true;
+	phoneCountryButton.setAttribute("aria-expanded", "false");
+}
+
+// Ativa o seletor pesquisável de país dentro do campo de telefone.
+function setupPhoneField() {
+	if (
+		!phoneField ||
+		!phoneCountryButton ||
+		!phoneNumberInput ||
+		!phoneCountryPanel ||
+		!phoneCountrySearch ||
+		!phoneCountryList
+	) {
+		return;
+	}
+
+	syncPhoneValue();
+	renderPhoneCountryOptions();
+
+	phoneCountryButton.addEventListener("click", () => {
+		if (phoneCountryPanel.hidden) {
+			openPhoneCountryPanel();
+			return;
+		}
+		closePhoneCountryPanel();
+	});
+
+	phoneCountrySearch.addEventListener("input", () => {
+		renderPhoneCountryOptions(phoneCountrySearch.value);
+	});
+
+	phoneCountrySearch.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") {
+			closePhoneCountryPanel();
+			phoneCountryButton.focus();
+		}
+	});
+
+	phoneNumberInput.addEventListener("input", () => {
+		updatePhoneFeedback();
+	});
+
+	document.addEventListener("click", (event) => {
+		if (
+			!phoneField.contains(event.target) &&
+			!phoneCountryPanel.contains(event.target)
+		) {
+			closePhoneCountryPanel();
+		}
+	});
+}
+
+// Liga os eventos de validação subtil dos campos NIF, email e telefone.
+function setupContactValidation() {
+	if (nifInput) {
+		nifInput.addEventListener("input", updateNifFeedback);
+		nifInput.addEventListener("blur", updateNifFeedback);
+	}
+
+	if (emailInput) {
+		emailInput.addEventListener("input", updateEmailFeedback);
+		emailInput.addEventListener("blur", updateEmailFeedback);
+	}
+}
 
 // Cria o cartão visual de cada projeto, tanto no preview como dentro da galeria.
 function createProjectCard(project, options = {}) {
@@ -344,11 +698,21 @@ function populateServiceSelect() {
 function setupContactForm() {
 	form.addEventListener("submit", (event) => {
 		event.preventDefault();
+		const nifValid = updateNifFeedback();
+		const emailValid = updateEmailFeedback();
+		const phoneValid = updatePhoneFeedback();
+
 		if (!form.checkValidity()) {
 			form.reportValidity();
 			return;
 		}
 
+		if (!nifValid || !emailValid || !phoneValid) {
+			form.reportValidity();
+			return;
+		}
+
+		syncPhoneValue();
 		const data = new FormData(form);
 
 		const text = [
@@ -364,6 +728,16 @@ function setupContactForm() {
 		const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 		window.open(url, "_blank", "noopener");
 		form.reset();
+		selectedPhoneCountry =
+			PHONE_COUNTRIES.find((country) => country.code === "PT") ||
+			PHONE_COUNTRIES[0];
+		nifInput.setCustomValidity("");
+		emailInput.setCustomValidity("");
+		phoneNumberInput.setCustomValidity("");
+		syncPhoneValue();
+		setFieldFeedback(nifFeedback, "");
+		setFieldFeedback(emailFeedback, "");
+		setFieldFeedback(phoneFeedback, "");
 	});
 }
 
@@ -532,6 +906,8 @@ function init() {
 	renderProjects();
 	renderServices();
 	populateServiceSelect();
+	setupPhoneField();
+	setupContactValidation();
 	setupContactForm();
 	setupReviewRating();
 	setupFirebaseReviews();

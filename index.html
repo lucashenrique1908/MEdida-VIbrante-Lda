@@ -182,24 +182,71 @@
 					</div>
 
 					<form id="contact-form" class="contact-form">
-						<label
+						<label class="field-group"
 							>Nome completo
 							<input type="text" name="nome" required />
 						</label>
 
-						<label
+						<label class="field-group"
 							>NIF
-							<input type="text" name="nif" inputmode="numeric" required />
+							<input
+								type="text"
+								id="nif"
+								name="nif"
+								inputmode="numeric"
+								maxlength="9"
+								required
+							/>
+							<small id="nif-feedback" class="field-feedback" aria-live="polite"></small>
 						</label>
 
-						<label
+						<label class="field-group"
 							>Email
-							<input type="email" name="email" required />
+							<input type="email" id="email" name="email" required />
+							<small id="email-feedback" class="field-feedback" aria-live="polite"></small>
 						</label>
 
-						<label
+						<label class="field-group phone-group"
 							>Telefone
-							<input type="tel" name="telefone" required />
+							<!-- Campo composto: país/código à esquerda e número à direita, sem quebrar o layout. -->
+							<div class="phone-field" id="phone-field">
+								<button
+									type="button"
+									id="phone-country-button"
+									class="phone-country-button"
+									aria-haspopup="dialog"
+									aria-expanded="false"
+									aria-controls="phone-country-panel"
+								>
+									<span id="phone-country-flag" class="phone-country-flag">🇵🇹</span>
+									<span id="phone-country-code" class="phone-country-code">+351</span>
+								</button>
+								<input
+									type="tel"
+									id="phone-number"
+									inputmode="tel"
+									autocomplete="tel-national"
+									placeholder="Número de telefone"
+									required
+								/>
+								<input type="hidden" id="telefone" name="telefone" />
+								<input type="hidden" id="phone-country" value="PT" />
+							</div>
+							<div
+								id="phone-country-panel"
+								class="phone-country-panel"
+								hidden
+							>
+								<input
+									type="search"
+									id="phone-country-search"
+									class="phone-country-search"
+									placeholder="Search country / procurar país"
+									autocomplete="off"
+								/>
+								<div id="phone-country-list" class="phone-country-list"></div>
+							</div>
+							<small id="phone-feedback" class="field-feedback" aria-live="polite"></small>
 						</label>
 
 						<label
@@ -222,8 +269,8 @@
 								<option>GREE</option>
 								<option>Nipon</option>
 								<option>BAUF</option>
-								<option>Não sei</option>
-								<option>Não tenho preferência</option>
+								<option>Não tenho conhecimento sobre marcas</option>
+								<option>Não tenho preferência, Pode me indicar por favor</option>
 							</select>
 						</label>
 

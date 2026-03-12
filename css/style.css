@@ -506,6 +506,7 @@ p {
   gap: 0.35rem;
   font-weight: 600;
   color: var(--text);
+  align-content: start;
 }
 
 .contact-form input,
@@ -520,6 +521,159 @@ p {
   color: var(--text);
   padding: 0.7rem;
   font: inherit;
+  min-height: 46px;
+}
+
+/* Garante que todos os campos do formulário comercial seguem a mesma estrutura vertical. */
+.field-group {
+  position: relative;
+  min-width: 0;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus,
+.review-form input:focus,
+.review-form textarea:focus,
+.phone-country-button:focus,
+.phone-country-search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(47, 111, 255, 0.12);
+}
+
+/* Mensagens subtis exibidas abaixo dos campos validados pelo JavaScript. */
+.field-feedback {
+  min-height: 1.1rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.field-feedback.is-valid {
+  color: #2f9b58;
+}
+
+.field-feedback.is-invalid {
+  color: #cc6c6c;
+}
+
+/* Campo composto do telefone com seletor de país incorporado. */
+.phone-field {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: stretch;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
+  overflow: hidden;
+}
+
+.phone-field:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(47, 111, 255, 0.12);
+}
+
+.phone-country-button {
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  min-width: 104px;
+  min-height: 46px;
+  padding: 0.7rem 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.phone-country-flag {
+  font-size: 1rem;
+}
+
+.phone-country-code {
+  font-weight: 700;
+}
+
+.phone-field #phone-number {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 46px;
+}
+
+/* Painel de pesquisa de países exibido abaixo do campo de telefone. */
+.phone-country-panel {
+  position: absolute;
+  top: calc(1.55rem + 0.35rem + 46px + 0.4rem);
+  left: 0;
+  right: 0;
+  z-index: 35;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(7, 11, 18, 0.12);
+}
+
+/* Reserva uma ancoragem estável para o painel do telefone, sem empurrar os outros campos. */
+.phone-group {
+  position: relative;
+}
+
+.phone-country-search {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--input-bg);
+  color: var(--text);
+  padding: 0.8rem 0.9rem;
+  font: inherit;
+}
+
+.phone-country-list {
+  max-height: 240px;
+  overflow: auto;
+}
+
+.phone-country-option {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  padding: 0.72rem 0.9rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.phone-country-option:last-child {
+  border-bottom: 0;
+}
+
+.phone-country-option:hover,
+.phone-country-option:focus-visible {
+  outline: none;
+  background: var(--bg-soft);
+}
+
+.phone-country-option small {
+  color: var(--muted);
+}
+
+.phone-country-option-code {
+  font-weight: 700;
+}
+
+.phone-country-empty {
+  padding: 0.85rem 0.9rem;
+  color: var(--muted);
 }
 
 .full {
