@@ -13,6 +13,9 @@
   --section-dark-bg: linear-gradient(180deg, rgba(79, 133, 255, 0.09), rgba(255, 255, 255, 0.7));
   --input-bg: #ffffff;
   --nav-text: #1f4d81;
+  --theme-toggle-border: transparent;
+  --theme-toggle-icon-sun: #c89a2a;
+  --theme-toggle-icon-moon: #0f1a2b;
 }
 
 body.theme-dark {
@@ -30,12 +33,17 @@ body.theme-dark {
   --section-dark-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.15));
   --input-bg: #090f18;
   --nav-text: #dce8ff;
+  --theme-toggle-border: transparent;
+  --theme-toggle-icon-sun: #d6a73b;
+  --theme-toggle-icon-moon: #dce8ff;
 }
 
+/* Reset simples para garantir consistência de box model. */
 * {
   box-sizing: border-box;
 }
 
+/* Base tipográfica, fundo global e scroll suave. */
 html,
 body {
   margin: 0;
@@ -46,21 +54,25 @@ body {
   scroll-behavior: smooth;
 }
 
+/* Todas as imagens passam a respeitar a largura do contentor. */
 img {
   max-width: 100%;
   display: block;
 }
 
+/* Os links herdam a cor do contexto visual onde estão inseridos. */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* Contentor máximo reutilizado em todas as secções principais. */
 .container {
   width: min(1120px, 92%);
   margin-inline: auto;
 }
 
+/* Header fixo com efeito translúcido. */
 .site-header {
   position: sticky;
   top: 0;
@@ -71,19 +83,23 @@ a {
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Esta classe é ligada/desligada no JS consoante a página faz scroll. */
 .site-header.scrolled {
   background: var(--header-scrolled);
   box-shadow: 0 8px 18px rgba(16, 40, 71, 0.12);
 }
 
+/* Estrutura principal da navegação. */
 .nav-wrap {
   min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: relative;
 }
 
+/* Área clicável do logótipo. */
 .logo {
   display: inline-flex;
   align-items: center;
@@ -91,12 +107,14 @@ a {
   flex-shrink: 0;
 }
 
+/* Dimensão do logótipo principal. */
 .logo img {
   width: clamp(72px, 9vw, 98px);
   height: auto;
   object-fit: contain;
 }
 
+/* Nome da empresa mostrado no cabeçalho. */
 .company-name {
   font-family: "Oswald", sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
@@ -104,18 +122,48 @@ a {
   color: var(--nav-text);
 }
 
+/* Agrupamento dos controlos do lado direito do header. */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 0.8rem;
 }
 
+/* Botão hamburguer usado no layout mobile. */
+.menu-toggle {
+  display: none;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.28rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 60;
+}
+
+/* Linhas internas do hamburguer; o CSS das media queries transforma-as em X. */
+.menu-toggle span {
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--nav-text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Menu horizontal do desktop. */
 nav {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem 1rem;
 }
 
+/* Links principais do menu. */
 nav a {
   color: var(--nav-text);
   font-weight: 600;
@@ -127,45 +175,103 @@ nav a:hover {
 }
 
 .theme-toggle {
-  width: 74px;
-  height: 34px;
-  border: 1px solid var(--line);
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--theme-toggle-border);
   border-radius: 999px;
-  background: var(--card);
+  background: transparent;
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0.2rem;
+  justify-content: center;
+  padding: 0;
   cursor: pointer;
   position: relative;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* Ambos os ícones existem no HTML, mas o CSS escolhe qual deles aparece em cada tema. */
 .theme-icon {
   position: absolute;
-  left: 10px;
-  font-size: 0.95rem;
-  line-height: 1;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.theme-knob {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
-  transition: transform 0.24s ease;
+/* Regras partilhadas pelos SVG do botão de tema. */
+.theme-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-width: 1.9;
 }
 
-body.theme-dark .theme-toggle {
-  justify-content: flex-end;
+/* Sol usado como ação visível no modo escuro. */
+.theme-icon-sun {
+  color: var(--theme-toggle-icon-sun);
 }
 
-body.theme-dark .theme-icon {
-  left: auto;
-  right: 10px;
+.theme-icon-sun svg {
+  stroke: currentColor;
+  fill: currentColor;
 }
 
+.theme-icon-sun svg circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Lua usada como ação visível no modo claro. */
+.theme-icon-moon {
+  color: var(--theme-toggle-icon-moon);
+}
+
+.theme-icon-moon svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* No modo claro, a lua é o único ícone visível. */
+.theme-toggle .theme-icon-moon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Quando o JS adiciona body.theme-dark, a lua desaparece. */
+body.theme-dark .theme-toggle .theme-icon-moon {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Quando o JS adiciona body.theme-dark, o sol dourado passa a aparecer. */
+body.theme-dark .theme-toggle .theme-icon-sun {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* No modo claro, o sol fica escondido. */
+.theme-toggle .theme-icon-sun {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Micro-interações do botão de tema. */
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 111, 255, 0.2);
+}
+
+/* Espaçamento vertical da secção principal. */
 .hero {
   padding: 4.5rem 0 3rem;
 }
@@ -177,6 +283,7 @@ body.theme-dark .theme-icon {
   align-items: center;
 }
 
+/* Tipografia dos títulos principais do site. */
 h1,
 h2,
 h3 {
@@ -213,14 +320,21 @@ p {
   font-weight: 700;
 }
 
+/* Imagem principal do hero; esta foto local foi pedida pelo utilizador para representar instalação de AC. */
 .hero-visual {
   min-height: 360px;
   border-radius: 18px;
   border: 1px solid var(--line);
   background:
-    linear-gradient(160deg, rgba(47, 111, 255, 0.35), rgba(7, 11, 18, 0.55)),
-    url("https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=60")
+    linear-gradient(155deg, rgba(13, 67, 159, 0.26), rgba(7, 11, 18, 0.48)),
+    url("../img/projetos/img11.jpg")
       center/cover;
+  box-shadow: 0 16px 34px rgba(10, 31, 62, 0.16);
+}
+
+#link-alvara {
+  font-weight: bold;
+  color: #1451d6;
 }
 
 .section {
@@ -269,6 +383,7 @@ p {
   border-color: var(--accent);
 }
 
+/* Grelha institucional da secção "Sobre". */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
@@ -290,10 +405,12 @@ p {
   object-fit: cover;
 }
 
+/* Indica visualmente que a secção pode ser clicada para abrir a galeria. */
 .clickable-section {
   cursor: pointer;
 }
 
+/* Grelha de projetos usada tanto no preview como na galeria. */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -341,6 +458,7 @@ p {
 
 .marquee-track {
   display: flex;
+  text-align: center;
   width: max-content;
   animation: slide 30s linear infinite;
   padding: 1rem;
@@ -370,6 +488,7 @@ p {
   }
 }
 
+/* Estrutura dos formulários principais do site. */
 .contact-form,
 .review-form {
   display: grid;
@@ -508,6 +627,7 @@ p {
   color: var(--muted);
 }
 
+/* Overlay da galeria completa dos projetos. */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -546,6 +666,7 @@ p {
   overflow: auto;
 }
 
+/* Overlay da fotografia ampliada. */
 .photo-lightbox {
   position: fixed;
   inset: 0;
@@ -588,21 +709,16 @@ p {
   cursor: pointer;
 }
 
+/* Ajustes intermédios para tablets e portáteis pequenos. */
 @media (max-width: 980px) {
   .nav-wrap {
     min-height: 56px;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     padding: 0.35rem 0;
   }
 
   .nav-actions {
-    width: 100%;
-    justify-content: center;
-  }
-
-  nav {
-    justify-content: center;
+    gap: 0.65rem;
   }
 
   .hero-grid,
@@ -619,30 +735,96 @@ p {
   }
 }
 
+/* Layout mobile: ativa o drawer lateral e reorganiza o header. */
 @media (max-width: 680px) {
   .container {
     width: min(1120px, 94%);
   }
 
+  .nav-wrap {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 72px;
+  }
+
+  .logo {
+    display: contents;
+  }
+
   .logo img {
+    grid-column: 1;
     width: clamp(64px, 15vw, 84px);
   }
 
   .company-name {
+    grid-column: 2;
+    justify-self: center;
     font-size: 1rem;
+    text-align: center;
   }
 
+  .menu-toggle {
+    display: inline-flex;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* O JS controla a abertura/fecho deste overlay com body.menu-open. */
   .nav-actions {
-    gap: 0.55rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    justify-content: flex-end;
+    z-index: 45;
   }
 
-  nav {
-    width: min(100%, 90vw);
-    justify-content: flex-start;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 0.2rem;
-    scrollbar-width: thin;
+  .nav-actions::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 11, 18, 0.48);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Painel lateral com 80% do ecrã, como pedido para o menu mobile. */
+  .nav-actions nav {
+    width: 80vw;
+    max-width: 360px;
+    height: 100vh;
+    padding: 6.5rem 1.4rem 1.6rem;
+    background: var(--header-bg);
+    border-left: 1px solid var(--header-border);
+    box-shadow: -18px 0 40px rgba(7, 11, 18, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+
+  .nav-actions nav a {
+    width: 100%;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 1.05rem;
+  }
+
+  .nav-actions .theme-toggle {
+    position: absolute;
+    top: 1.15rem;
+    right: min(80vw + 1rem, calc(100vw - 4.6rem));
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
   .hero {
@@ -662,5 +844,34 @@ p {
   .gallery-grid {
     max-height: 76vh;
   }
-}
 
+  /* Estados ativados diretamente pelo JS quando o menu mobile está aberto. */
+  body.menu-open .nav-actions {
+    pointer-events: auto;
+  }
+
+  body.menu-open .nav-actions::before {
+    opacity: 1;
+  }
+
+  body.menu-open .nav-actions nav {
+    transform: translateX(0);
+  }
+
+  body.menu-open .nav-actions .theme-toggle {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  body.menu-open .menu-toggle span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  body.menu-open .menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  body.menu-open .menu-toggle span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}

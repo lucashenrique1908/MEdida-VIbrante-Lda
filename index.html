@@ -1,302 +1,452 @@
 ﻿<!doctype html>
 <html lang="pt-PT">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Medida Vibrante Lda | Ar Condicionado</title>
-    <meta
-      name="description"
-      content="Instalação, manutenção e reparação de ar condicionado em Lisboa e Margem Sul."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Oswald:wght@500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container nav-wrap">
-        <a href="#topo" class="logo" aria-label="Medida Vibrante Lda">
-          <img id="brand-logo" src="img/projetos/slogan.png" alt="Slogan da Medida Vibrante Lda" />
-          <span class="company-name">Medida Vibrante Lda</span>
-        </a>
-        <div class="nav-actions">
-          <nav>
-            <a href="#sobre">Sobre</a>
-            <a href="#projetos">Projetos</a>
-            <a href="#servicos">Serviços</a>
-            <a href="#formulario">Formulário</a>
-            <a href="#avaliacoes">Avaliações</a>
-            <a href="#zonas">Zonas</a>
-          </nav>
-          <button
-            id="theme-toggle"
-            class="theme-toggle"
-            type="button"
-            aria-label="Ativar modo escuro"
-            aria-pressed="false"
-          >
-            <span class="theme-icon" aria-hidden="true">&#9728;&#65039;</span>
-            <span class="theme-knob" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+	<head>
+		<!-- Metadados base do documento e carregamento dos recursos globais. -->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Medida Vibrante Lda | Ar Condicionado</title>
+		<meta
+			name="description"
+			content="Instalação, manutenção e reparação de ar condicionado em Lisboa e Margem Sul."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Oswald:wght@500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body>
+		<!-- Cabeçalho fixo com logótipo, navegação principal, menu mobile e alternador de tema. -->
+		<header class="site-header">
+			<div class="container nav-wrap">
+				<!-- A imagem do logótipo é trocada pelo JavaScript em applyTheme(), em js/script.js. -->
+				<a href="#topo" class="logo" aria-label="Medida Vibrante Lda">
+					<img
+						id="brand-logo"
+						src="img/projetos/slogan.png"
+						alt="Slogan da Medida Vibrante Lda"
+					/>
+					<span class="company-name">Medida Vibrante Lda</span>
+				</a>
+				<!-- Botão hamburguer visível apenas no mobile; o JS abre/fecha o drawer com a classe body.menu-open. -->
+				<button
+					id="menu-toggle"
+					class="menu-toggle"
+					type="button"
+					aria-label="Abrir menu"
+					aria-expanded="false"
+					aria-controls="primary-nav"
+				>
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+				<div class="nav-actions">
+					<!-- Menu principal. No mobile, este bloco vira um painel lateral de 80% da largura. -->
+					<nav id="primary-nav">
+						<a href="#sobre">Sobre</a>
+						<a href="#projetos">Projetos</a>
+						<a href="#servicos">Serviços</a>
+						<a href="#formulario">Formulário</a>
+						<a href="#avaliacoes">Avaliações</a>
+						<a href="#zonas">Zonas</a>
+					</nav>
+					<button
+						id="theme-toggle"
+						class="theme-toggle"
+						type="button"
+						aria-label="Ativar modo escuro"
+						aria-pressed="false"
+					>
+						<!-- Sol mostrado quando o site está no modo escuro; o clique volta para o modo claro. -->
+						<span class="theme-icon theme-icon-sun" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+								<circle cx="12" cy="12" r="4.5"></circle>
+								<path
+									d="M12 1.75v2.5M12 19.75v2.5M4.75 4.75l1.8 1.8M17.45 17.45l1.8 1.8M1.75 12h2.5M19.75 12h2.5M4.75 19.25l1.8-1.8M17.45 6.55l1.8-1.8"
+								></path>
+							</svg>
+						</span>
+						<!-- Lua mostrada quando o site está no modo claro; o clique ativa o modo escuro. -->
+						<span class="theme-icon theme-icon-moon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+								<path
+									d="M18.5 14.5A7.5 7.5 0 0 1 9.5 5.5a8 8 0 1 0 9 9Z"
+								></path>
+							</svg>
+						</span>
+					</button>
+				</div>
+			</div>
+		</header>
 
-    <main id="topo">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <p class="eyebrow">Climatização Profissional</p>
-            <h1>Soluções de Ar Condicionado para Casas e Empresas</h1>
-            <p>
-              Instalação, higienização e reparação com foco em eficiência,
-              conforto e confiança.
-            </p>
-            <a href="#formulario" class="btn">Pedir Orçamento</a>
-          </div>
-          <div class="hero-visual" aria-hidden="true"></div>
-        </div>
-      </section>
+		<!-- Conteúdo principal da página. -->
+		<main id="topo">
+			<!-- Hero principal; a foto lateral é controlada exclusivamente pelo CSS em .hero-visual. -->
+			<section class="hero">
+				<div class="container hero-grid">
+					<div>
+						<p class="eyebrow">Climatização Profissional</p>
+						<h1>Soluções de Ar Condicionado para Casas e Empresas</h1>
+						<p>
+							Instalação, higienização e reparação com foco em eficiência,
+							conforto e confiança.
+						</p>
+						<a href="#formulario" class="btn">Pedir Orçamento</a>
+					</div>
+					<div class="hero-visual" aria-hidden="true"></div>
+				</div>
+			</section>
 
-      <section id="sobre" class="section">
-        <div class="container about-grid">
-          <div class="about-image-wrap">
-            <img
-              src="img/projetos/img7.jpeg"
-              alt="Técnico da Medida Vibrante a realizar instalação de ar condicionado"
-              onerror="this.src='https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=60'"
-            />
-          </div>
-          <div>
-            <p class="eyebrow">Sobre Nós</p>
-            <h2>Medida Vibrante Lda</h2>
-            <p>
-              Somos uma empresa especializada em sistemas de ar condicionado e
-              soluções térmicas. Trabalhamos com rigor técnico, compromisso com
-              prazos e foco total na satisfação do cliente.
-            </p>
-            <p>
-              Atuamos em Lisboa e na Margem Sul, com uma equipa preparada para
-              instalação, manutenção, higienização e reparação de equipamentos.
-            </p>
-          </div>
-        </div>
-      </section>
+			<!-- Secção institucional sobre a empresa. -->
+			<section id="sobre" class="section">
+				<div class="container about-grid">
+					<div class="about-image-wrap">
+						<img
+							src="img/projetos/img7.jpeg"
+							alt="Técnico da Medida Vibrante a realizar instalação de ar condicionado"
+							onerror="
+								this.src =
+									'https://i.pinimg.com/736x/29/81/3a/29813a9393d4b82a74b29297daf8103b.jpg'
+							"
+						/>
+					</div>
+					<div>
+						<p class="eyebrow">Sobre Nós</p>
+						<h2>Medida Vibrante Lda</h2>
+						<p>
+							Somos uma empresa especializada e certificada com <a href="https://www.impic.pt/impic/pt-pt/" target="_blank" id="link-alvara">Alvará IMPIC Nº 118847-PUB — verificação oficial no portal do IMPIC</a>. <br> Ar condicionado e soluções térmicas. Trabalhamos com
+							rigor técnico e com técnicos Certificados em gases fluorados.
+							Compromisso com prazos e foco total na satisfação de nossos
+							clientes.
+						</p>
+						<p>
+							Atuamos em Lisboa e na Margem Sul, com uma equipa responsável e
+							preparada para instalação e manutenção, higienização e reparação
+							de equipamentos de climatização.
+						</p>
+					</div>
+				</div>
+			</section>
 
-      <section id="projetos" class="section section-dark clickable-section" tabindex="0">
-        <div class="container">
-          <div class="section-head">
-            <p class="eyebrow">Projetos Realizados</p>
-            <h2>Alguns trabalhos da Medida Vibrante</h2>
-            <p>
-              Clique em qualquer área desta secção para abrir a galeria completa.
-            </p>
-          </div>
-          <div id="preview-grid" class="project-grid"></div>
-        </div>
-      </section>
+			<!-- Secção de projetos; o JavaScript preenche o preview e abre a galeria ao clicar. -->
+			<section
+				id="projetos"
+				class="section section-dark clickable-section"
+				tabindex="0"
+			>
+				<div class="container">
+					<div class="section-head">
+						<p class="eyebrow">Projetos Realizados</p>
+						<h2>Alguns trabalhos da Medida Vibrante</h2>
+						<p>
+							Clique em qualquer área desta secção para abrir a galeria
+							completa.
+						</p>
+					</div>
+					<!-- O conteúdo desta grelha é renderizado em renderProjects(), em js/script.js. -->
+					<div id="preview-grid" class="project-grid"></div>
+				</div>
+			</section>
 
-      <section id="servicos" class="section">
-        <div class="container">
-          <div class="section-head">
-            <p class="eyebrow">Serviços Prestados</p>
-            <h2>Especialistas em climatização</h2>
-          </div>
+			<!-- Lista dos serviços com faixa em movimento contínuo. -->
+			<section id="servicos" class="section">
+				<div class="container">
+					<div class="section-head">
+						<p class="eyebrow">Serviços Prestados</p>
+						<h2>Especialistas em climatização</h2>
+					</div>
 
-          <div class="services-marquee" aria-label="Lista de serviços da empresa">
-            <div class="marquee-track" id="marquee-track"></div>
-          </div>
+					<div
+						class="services-marquee"
+						aria-label="Lista de serviços da empresa"
+					>
+						<!-- O JavaScript duplica os serviços aqui para criar o efeito de marquee infinito. -->
+						<div class="marquee-track" id="marquee-track"></div>
+					</div>
 
-          <a href="#formulario" class="btn btn-subtle">
-            Para mais informações não hesite em contactar-nos
-          </a>
-        </div>
-      </section>
+					<a href="#formulario" class="btn btn-subtle">
+						Para mais informações não hesite em contactar-nos
+					</a>
+				</div>
+			</section>
 
-      <section id="formulario" class="section section-dark">
-        <div class="container">
-          <div class="section-head">
-            <p class="eyebrow">Pedido de Contacto</p>
-            <h2>Informação do Cliente</h2>
-          </div>
+			<!-- Formulário comercial; o envio é transformado em mensagem de WhatsApp pelo JavaScript. -->
+			<section id="formulario" class="section section-dark">
+				<div class="container">
+					<div class="section-head">
+						<p class="eyebrow">Pedido de Contacto</p>
+						<h2>Informação do Cliente</h2>
+					</div>
 
-          <form id="contact-form" class="contact-form">
-            <label>Nome completo
-              <input type="text" name="nome" required />
-            </label>
+					<form id="contact-form" class="contact-form">
+						<label
+							>Nome completo
+							<input type="text" name="nome" required />
+						</label>
 
-            <label>NIF
-              <input type="text" name="nif" inputmode="numeric" required />
-            </label>
+						<label
+							>NIF
+							<input type="text" name="nif" inputmode="numeric" required />
+						</label>
 
-            <label>Email
-              <input type="email" name="email" required />
-            </label>
+						<label
+							>Email
+							<input type="email" name="email" required />
+						</label>
 
-            <label>Telefone
-              <input type="tel" name="telefone" required />
-            </label>
+						<label
+							>Telefone
+							<input type="tel" name="telefone" required />
+						</label>
 
-            <label>Serviço pretendido
-              <select name="servico" id="servico-select" required></select>
-            </label>
+						<label
+							>Serviço pretendido
+							<!-- As opções deste select são inseridas em populateServiceSelect(), no JS. -->
+							<select name="servico" id="servico-select" required></select>
+						</label>
 
-            <label>Marca de preferência
-              <select name="marca" required>
-                <option value="" disabled selected>Selecionar</option>
-                <option>Daikin</option>
-                <option>Mitsubishi</option>
-                <option>LG</option>
-                <option>Samsung</option>
-                <option>Haier</option>
-                <option>Giatsu</option>
-                <option>Toytomy</option>
-                <option>GREE</option>
-                <option>Nipon</option>
-                <option>BAUF</option>
-                <option>Não sei</option>
-                <option>Não tenho preferência</option>
-              </select>
-            </label>
+						<label
+							>Marca de preferência
+							<select name="marca" required>
+								<option value="" disabled selected>Selecionar</option>
+								<option>Daikin</option>
+								<option>Mitsubishi</option>
+								<option>LG</option>
+								<option>Samsung</option>
+								<option>Haier</option>
+								<option>Giatsu</option>
+								<option>Toytomy</option>
+								<option>GREE</option>
+								<option>Nipon</option>
+								<option>BAUF</option>
+								<option>Não sei</option>
+								<option>Não tenho preferência</option>
+							</select>
+						</label>
 
-            <p class="privacy-note full">
-              Os dados fornecidos neste formulário são utilizados apenas para
-              contacto e prestação do serviço solicitado. Após o envio, os dados
-              são encaminhados para contacto via WhatsApp e não são armazenados
-              neste website.
-            </p>
+						<p class="privacy-note full">
+							Os dados fornecidos neste formulário são utilizados apenas para
+							contacto e prestação do serviço solicitado. Após o envio, os dados
+							são encaminhados para contacto via WhatsApp e não são armazenados
+							neste website.
+						</p>
 
-            <label class="check full">
-              <input type="radio" name="privacy_consent" value="accepted" required />
-              <span>
-                Li e aceito a
-                <a href="/politica-privacidade" target="_blank">Política de Privacidade</a>
-              </span>
-            </label>
+						<label class="check full">
+							<input
+								type="radio"
+								name="privacy_consent"
+								value="accepted"
+								required
+							/>
+							<span>
+								Li e aceito a
+								<a href="/politica-privacidade" target="_blank"
+									>Política de Privacidade</a
+								>
+							</span>
+						</label>
 
-            <button class="btn full" type="submit">Enviar pelo WhatsApp</button>
-          </form>
-        </div>
-      </section>
+						<button class="btn full" type="submit">Enviar pelo WhatsApp</button>
+					</form>
+				</div>
+			</section>
 
-      <section id="avaliacoes" class="section">
-        <div class="container">
-          <div class="section-head">
-            <p class="eyebrow">Avaliações</p>
-            <h2>Deixe a sua avaliação</h2>
-          </div>
+			<!-- Área de avaliações; o JS gere a seleção de estrelas e a ligação ao Firebase. -->
+			<section id="avaliacoes" class="section">
+				<div class="container">
+					<div class="section-head">
+						<p class="eyebrow">Avaliações</p>
+						<h2>Deixe a sua avaliação</h2>
+					</div>
 
-          <form id="review-form" class="review-form">
-            <label>Nome
-              <input type="text" name="review_nome" required />
-            </label>
+					<form id="review-form" class="review-form">
+						<label
+							>Nome
+							<input type="text" name="review_nome" required />
+						</label>
 
-            <label class="full">Comentário
-              <textarea
-                name="review_comentario"
-                rows="4"
-                required
-                placeholder="Partilhe a sua experiência"
-              ></textarea>
-            </label>
+						<label class="full"
+							>Comentário
+							<textarea
+								name="review_comentario"
+								rows="4"
+								required
+								placeholder="Partilhe a sua experiência"
+							></textarea>
+						</label>
 
-            <label class="full">Estrelas (1 a 5)</label>
-            <div class="rating full" id="review-rating" role="radiogroup" aria-label="Classificação em estrelas">
-              <button type="button" class="star" data-value="1" aria-label="1 estrela">★</button>
-              <button type="button" class="star" data-value="2" aria-label="2 estrelas">★</button>
-              <button type="button" class="star" data-value="3" aria-label="3 estrelas">★</button>
-              <button type="button" class="star" data-value="4" aria-label="4 estrelas">★</button>
-              <button type="button" class="star" data-value="5" aria-label="5 estrelas">★</button>
-            </div>
-            <input type="hidden" id="review_stars" name="review_stars" value="0" />
+						<label class="full">Estrelas (1 a 5)</label>
+						<div
+							class="rating full"
+							id="review-rating"
+							role="radiogroup"
+							aria-label="Classificação em estrelas"
+						>
+							<button
+								type="button"
+								class="star"
+								data-value="1"
+								aria-label="1 estrela"
+							>
+								★
+							</button>
+							<button
+								type="button"
+								class="star"
+								data-value="2"
+								aria-label="2 estrelas"
+							>
+								★
+							</button>
+							<button
+								type="button"
+								class="star"
+								data-value="3"
+								aria-label="3 estrelas"
+							>
+								★
+							</button>
+							<button
+								type="button"
+								class="star"
+								data-value="4"
+								aria-label="4 estrelas"
+							>
+								★
+							</button>
+							<button
+								type="button"
+								class="star"
+								data-value="5"
+								aria-label="5 estrelas"
+							>
+								★
+							</button>
+						</div>
+						<!-- Campo oculto atualizado pelo JS quando o utilizador escolhe a quantidade de estrelas. -->
+						<input
+							type="hidden"
+							id="review_stars"
+							name="review_stars"
+							value="0"
+						/>
 
-            <button class="btn full" type="submit">Publicar comentário</button>
-          </form>
+						<button class="btn full" type="submit">Publicar comentário</button>
+					</form>
 
-          <div id="reviews-status" class="reviews-status" aria-live="polite"></div>
-          <div id="reviews-list" class="reviews-list"></div>
-        </div>
-      </section>
+					<div
+						id="reviews-status"
+						class="reviews-status"
+						aria-live="polite"
+					></div>
+					<!-- Lista de comentários renderizada dinamicamente a partir do Firestore. -->
+					<div id="reviews-list" class="reviews-list"></div>
+				</div>
+			</section>
 
-      <section id="zonas" class="section section-dark">
-        <div class="container">
-          <div class="section-head">
-            <p class="eyebrow">Zonas Atendidas</p>
-            <h2>Lisboa e Margem Sul com técnicos locais</h2>
-          </div>
-          <div class="zones-grid">
-            <article>
-              <h3>Lisboa</h3>
-              <ul>
-                <li>Lisboa</li>
-                <li>Amadora</li>
-                <li>Loures</li>
-                <li>Odivelas</li>
-                <li>Benfica</li>
-                <li>Algés</li>
-                <li>Oeiras</li>
-                <li>Cacém</li>
-                <li>Sintra</li>
-                <li>Cascais</li>
-                <li>Belém</li>
-                <li>Restelo</li>
-                <li>Ajuda</li>
-                <li>Alcântara</li>
-                <li>Santos</li>
-                <li>Príncipe Real</li>
-                <li>Marquês de Pombal</li>
-                <li>Avenidas Novas</li>
-                <li>Alvalade</li>
-                <li>Lumiar</li>
-                <li>Olivais</li>
-              </ul>
-            </article>
-            <article>
-              <h3>Margem Sul</h3>
-              <ul>
-                <li>Almada</li>
-                <li>Seixal</li>
-                <li>Barreiro</li>
-                <li>Moita</li>
-                <li>Setúbal</li>
-                <li>Montijo</li>
-                <li>Alcochete</li>
-                <li>Corroios</li>
-                <li>Pragal</li>
-                <li>Cacilhas</li>
-                <li>Trafaria</li>
-                <li>Costa da Caparica</li>
-                <li>Charneca de Caparica</li>
-                <li>Sobreda</li>
-                <li>Fernão Ferro</li>
-                <li>Sesimbra</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
+			<!-- Cobertura geográfica da empresa. -->
+			<section id="zonas" class="section section-dark">
+				<div class="container">
+					<div class="section-head">
+						<p class="eyebrow">Zonas Atendidas</p>
+						<h2>Lisboa e Margem Sul com técnicos locais</h2>
+					</div>
+					<div class="zones-grid">
+						<article>
+							<h3>Lisboa</h3>
+							<ul>
+								<li>Lisboa</li>
+								<li>Amadora</li>
+								<li>Loures</li>
+								<li>Odivelas</li>
+								<li>Benfica</li>
+								<li>Algés</li>
+								<li>Oeiras</li>
+								<li>Cacém</li>
+								<li>Sintra</li>
+								<li>Cascais</li>
+								<li>Belém</li>
+								<li>Restelo</li>
+								<li>Ajuda</li>
+								<li>Alcântara</li>
+								<li>Santos</li>
+								<li>Príncipe Real</li>
+								<li>Marquês de Pombal</li>
+								<li>Avenidas Novas</li>
+								<li>Alvalade</li>
+								<li>Lumiar</li>
+								<li>Olivais</li>
+							</ul>
+						</article>
+						<article>
+							<h3>Margem Sul</h3>
+							<ul>
+								<li>Almada</li>
+								<li>Seixal</li>
+								<li>Barreiro</li>
+								<li>Moita</li>
+								<li>Setúbal</li>
+								<li>Montijo</li>
+								<li>Alcochete</li>
+								<li>Corroios</li>
+								<li>Pragal</li>
+								<li>Cacilhas</li>
+								<li>Trafaria</li>
+								<li>Costa da Caparica</li>
+								<li>Charneca de Caparica</li>
+								<li>Sobreda</li>
+								<li>Fernão Ferro</li>
+								<li>Sesimbra</li>
+							</ul>
+						</article>
+					</div>
+				</div>
+			</section>
+		</main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© <span id="year"></span> Medida Vibrante Lda. Todos os direitos reservados.</p>
-      </div>
-    </footer>
+		<!-- Rodapé com o ano atual, preenchido em init(), no JavaScript. -->
+		<footer class="site-footer">
+			<div class="container">
+				<p>
+					© <span id="year"></span> Medida Vibrante Lda. Todos os direitos
+					reservados.
+				</p>
+			</div>
+		</footer>
 
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <button class="lightbox-close" id="close-lightbox" aria-label="Fechar galeria">×</button>
-      <div id="gallery-grid" class="gallery-grid"></div>
-    </div>
-    <div id="photo-lightbox" class="photo-lightbox" aria-hidden="true">
-      <button class="photo-lightbox-close" id="close-photo-lightbox" aria-label="Fechar fotografia">×</button>
-      <img id="photo-lightbox-image" src="" alt="Fotografia ampliada do projeto" />
-    </div>
+		<!-- Modal da galeria completa dos projetos, controlada por openGallery() e closeGallery(). -->
+		<div id="lightbox" class="lightbox" aria-hidden="true">
+			<button
+				class="lightbox-close"
+				id="close-lightbox"
+				aria-label="Fechar galeria"
+			>
+				×
+			</button>
+			<div id="gallery-grid" class="gallery-grid"></div>
+		</div>
+		<!-- Modal de ampliação de uma única fotografia da galeria. -->
+		<div id="photo-lightbox" class="photo-lightbox" aria-hidden="true">
+			<button
+				class="photo-lightbox-close"
+				id="close-photo-lightbox"
+				aria-label="Fechar fotografia"
+			>
+				×
+			</button>
+			<img
+				id="photo-lightbox-image"
+				src=""
+				alt="Fotografia ampliada do projeto"
+			/>
+		</div>
 
-    <script src="js/firebase-config.js"></script>
-    <script type="module" src="js/script.js"></script>
-  </body>
+		<!-- Configuração externa do Firebase. -->
+		<script src="js/firebase-config.js"></script>
+		<!-- Lógica principal do site: tema, menu mobile, galeria, formulário e avaliações. -->
+		<script type="module" src="js/script.js"></script>
+	</body>
 </html>

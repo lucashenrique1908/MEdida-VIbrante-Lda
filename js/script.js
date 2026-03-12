@@ -10,6 +10,7 @@ import {
 	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+// Lista textual usada no marquee de serviços e no select do formulário.
 const SERVICES = [
 	"Instalação de sistema Multi Split",
 	"Instalação de sistema Mono Split",
@@ -22,6 +23,7 @@ const SERVICES = [
 	"Reparação de ar condicionado",
 ];
 
+// Galeria base de projetos; o preview e o lightbox são gerados a partir deste array.
 const PROJECTS = [
 	{
 		src: "img/projetos/img1.jpeg",
@@ -59,10 +61,13 @@ const PROJECTS = [
 	},
 ];
 
+// Imagem remota de fallback caso alguma foto local falhe no carregamento.
 const FALLBACK_IMAGE =
 	"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=60";
+// Número para onde o formulário comercial é encaminhado via WhatsApp.
 const WHATSAPP_NUMBER = "351967722023";
 
+// Referências para as áreas de projetos e modais.
 const previewGrid = document.getElementById("preview-grid");
 const galleryGrid = document.getElementById("gallery-grid");
 const projectsSection = document.getElementById("projetos");
@@ -73,14 +78,19 @@ const closePhotoLightboxButton = document.getElementById(
 	"close-photo-lightbox",
 );
 const photoLightboxImage = document.getElementById("photo-lightbox-image");
+// Referências para os serviços e formulário de contacto.
 const marqueeTrack = document.getElementById("marquee-track");
 const serviceSelect = document.getElementById("servico-select");
 const form = document.getElementById("contact-form");
+// Referências do cabeçalho. O JS altera classes, atributos ARIA e o logótipo.
 const siteHeader = document.querySelector(".site-header");
 const themeToggle = document.getElementById("theme-toggle");
-const themeIcon = themeToggle ? themeToggle.querySelector(".theme-icon") : null;
 const brandLogo = document.getElementById("brand-logo");
+const menuToggle = document.getElementById("menu-toggle");
+const primaryNav = document.getElementById("primary-nav");
+const navActions = document.querySelector(".nav-actions");
 
+// Referências da área de avaliações.
 const reviewForm = document.getElementById("review-form");
 const reviewRatingRoot = document.getElementById("review-rating");
 const reviewStarsField = document.getElementById("review_stars");
@@ -88,9 +98,11 @@ const reviewsList = document.getElementById("reviews-list");
 const reviewsStatus = document.getElementById("reviews-status");
 
 let db = null;
+// O JS troca estas imagens em applyTheme() quando o utilizador alterna o tema.
 const LOGO_LIGHT = "img/projetos/slogan.png";
 const LOGO_DARK = "img/projetos/sloganVersao2.png";
 
+// Cria o cartão visual de cada projeto, tanto no preview como dentro da galeria.
 function createProjectCard(project, options = {}) {
 	const { zoomable = false } = options;
 	const card = document.createElement("article");
@@ -108,6 +120,7 @@ function createProjectCard(project, options = {}) {
 	return card;
 }
 
+// Renderiza apenas os primeiros projetos na secção de preview da página.
 function renderProjects() {
 	previewGrid.innerHTML = "";
 	PROJECTS.slice(0, 5).forEach((project) => {
@@ -115,6 +128,7 @@ function renderProjects() {
 	});
 }
 
+// Abre o modal principal da galeria e popula todas as imagens disponíveis.
 function openGallery() {
 	galleryGrid.innerHTML = "";
 	PROJECTS.forEach((project) =>
@@ -125,6 +139,7 @@ function openGallery() {
 	updateBodyLock();
 }
 
+// Fecha o modal principal da galeria.
 function closeGallery() {
 	closePhotoLightbox();
 	lightbox.classList.remove("open");
@@ -132,6 +147,7 @@ function closeGallery() {
 	updateBodyLock();
 }
 
+// Abre a ampliação de uma foto específica clicada dentro da galeria.
 function openPhotoLightbox(src, altText = "Foto do projeto ampliada") {
 	if (!photoLightbox || !photoLightboxImage) {
 		return;
@@ -143,6 +159,7 @@ function openPhotoLightbox(src, altText = "Foto do projeto ampliada") {
 	updateBodyLock();
 }
 
+// Fecha a ampliação da foto e limpa o src para evitar conteúdo residual.
 function closePhotoLightbox() {
 	if (!photoLightbox || !photoLightboxImage) {
 		return;
@@ -153,12 +170,18 @@ function closePhotoLightbox() {
 	updateBodyLock();
 }
 
+// Centraliza o bloqueio de scroll do body.
+// O JS chama esta função sempre que abre ou fecha galeria, foto ampliada ou menu mobile.
 function updateBodyLock() {
 	const isGalleryOpen = lightbox.classList.contains("open");
 	const isPhotoOpen = photoLightbox && photoLightbox.classList.contains("open");
-	document.body.style.overflow = isGalleryOpen || isPhotoOpen ? "hidden" : "";
+	const isMenuOpen =
+		document.body.classList.contains("menu-open") && window.innerWidth <= 680;
+	document.body.style.overflow =
+		isGalleryOpen || isPhotoOpen || isMenuOpen ? "hidden" : "";
 }
 
+// Adiciona/remove a classe .scrolled no header para mudar o estilo após scroll.
 function updateHeaderState() {
 	if (!siteHeader) {
 		return;
@@ -166,11 +189,18 @@ function updateHeaderState() {
 	siteHeader.classList.toggle("scrolled", window.scrollY > 10);
 }
 
+// Escuta o scroll da janela e mantém o header visualmente coerente.
 function setupHeaderScroll() {
 	updateHeaderState();
 	window.addEventListener("scroll", updateHeaderState, { passive: true });
 }
 
+// Aplica o tema global do site.
+// Aqui o JS:
+// 1) liga/desliga body.theme-dark, que altera cores via CSS;
+// 2) troca o logótipo claro/escuro;
+// 3) atualiza os atributos de acessibilidade do botão;
+// 4) grava a preferência no localStorage.
 function applyTheme(theme) {
 	const isDark = theme === "dark";
 	document.body.classList.toggle("theme-dark", isDark);
@@ -187,15 +217,76 @@ function applyTheme(theme) {
 		);
 	}
 
-	if (themeIcon) {
-		themeIcon.textContent = isDark ? "🌙" : "☀️";
-	}
-
 	try {
 		window.localStorage.setItem("theme", isDark ? "dark" : "light");
 	} catch (_error) {}
 }
 
+// Fecha o menu mobile e repõe os atributos do botão hamburguer.
+function closeMobileMenu() {
+	if (!menuToggle || !primaryNav) {
+		return;
+	}
+	document.body.classList.remove("menu-open");
+	menuToggle.setAttribute("aria-expanded", "false");
+	menuToggle.setAttribute("aria-label", "Abrir menu");
+	updateBodyLock();
+}
+
+// Abre o menu mobile ao adicionar a classe body.menu-open.
+function openMobileMenu() {
+	if (!menuToggle || !primaryNav) {
+		return;
+	}
+	document.body.classList.add("menu-open");
+	menuToggle.setAttribute("aria-expanded", "true");
+	menuToggle.setAttribute("aria-label", "Fechar menu");
+	updateBodyLock();
+}
+
+// Liga todo o comportamento do menu mobile.
+// O JS abre/fecha no clique do botão, fecha ao tocar num link,
+// fecha ao tocar fora do painel e também ao redimensionar para desktop.
+function setupMobileMenu() {
+	if (!menuToggle || !primaryNav) {
+		return;
+	}
+
+	menuToggle.addEventListener("click", () => {
+		const isOpen = document.body.classList.contains("menu-open");
+		if (isOpen) {
+			closeMobileMenu();
+			return;
+		}
+		openMobileMenu();
+	});
+
+	primaryNav.querySelectorAll("a").forEach((link) => {
+		link.addEventListener("click", () => {
+			if (window.innerWidth <= 680) {
+				closeMobileMenu();
+			}
+		});
+	});
+
+	if (navActions) {
+		navActions.addEventListener("click", (event) => {
+			if (event.target === navActions && window.innerWidth <= 680) {
+				closeMobileMenu();
+			}
+		});
+	}
+
+	window.addEventListener("resize", () => {
+		if (window.innerWidth > 680) {
+			closeMobileMenu();
+		} else {
+			updateBodyLock();
+		}
+	});
+}
+
+// Recupera a preferência de tema guardada e liga o clique do botão de alternância.
 function setupThemeToggle() {
 	let savedTheme = "light";
 	try {
@@ -219,6 +310,7 @@ function setupThemeToggle() {
 	}
 }
 
+// Duplica a lista de serviços para criar a animação contínua do marquee.
 function renderServices() {
 	marqueeTrack.innerHTML = "";
 	const doubled = [...SERVICES, ...SERVICES];
@@ -230,6 +322,7 @@ function renderServices() {
 	});
 }
 
+// Preenche dinamicamente o select de serviços do formulário de contacto.
 function populateServiceSelect() {
 	serviceSelect.innerHTML = "";
 	const placeholder = document.createElement("option");
@@ -247,6 +340,7 @@ function populateServiceSelect() {
 	});
 }
 
+// Interceta o submit do formulário, valida os campos e abre a conversa no WhatsApp.
 function setupContactForm() {
 	form.addEventListener("submit", (event) => {
 		event.preventDefault();
@@ -258,7 +352,7 @@ function setupContactForm() {
 		const data = new FormData(form);
 
 		const text = [
-			"*Novo pedido Medida Vibrante*",
+			"Olá, gostaria de saber mais informações, meus dados são:",
 			`Nome: ${data.get("nome")}`,
 			`NIF: ${data.get("nif")}`,
 			`Email: ${data.get("email")}`,
@@ -273,12 +367,14 @@ function setupContactForm() {
 	});
 }
 
+// Atualiza visualmente as estrelas selecionadas no formulário de avaliações.
 function drawStars(root, value) {
 	root.querySelectorAll(".star").forEach((star) => {
 		star.classList.toggle("active", Number(star.dataset.value) <= value);
 	});
 }
 
+// Liga o clique nas estrelas para preencher o campo oculto review_stars.
 function setupReviewRating() {
 	reviewRatingRoot.addEventListener("click", (event) => {
 		const button = event.target.closest(".star");
@@ -289,6 +385,7 @@ function setupReviewRating() {
 	});
 }
 
+// Cria cada item visual de comentário carregado do Firebase.
 function createReviewItem(review) {
 	const item = document.createElement("article");
 	item.className = "review-item";
@@ -300,6 +397,7 @@ function createReviewItem(review) {
 	return item;
 }
 
+// Liga a secção de avaliações ao Firestore e redesenha a lista em tempo real.
 function setupFirebaseReviews() {
 	const firebaseConfig = window.FIREBASE_CONFIG;
 	if (!firebaseConfig || !firebaseConfig.apiKey) {
@@ -319,6 +417,7 @@ function setupFirebaseReviews() {
 
 	onSnapshot(reviewsQuery, (snapshot) => {
 		reviewsList.innerHTML = "";
+		// A lista é recriada do zero sempre que chegam alterações da base de dados.
 		snapshot.forEach((docSnap) => {
 			const data = docSnap.data();
 			reviewsList.appendChild(
@@ -332,6 +431,7 @@ function setupFirebaseReviews() {
 	});
 }
 
+// Publica uma nova avaliação no Firestore depois de validar os dados do formulário.
 function setupReviewForm() {
 	reviewForm.addEventListener("submit", async (event) => {
 		event.preventDefault();
@@ -373,6 +473,7 @@ function setupReviewForm() {
 	});
 }
 
+// Concentra todos os listeners globais ligados à galeria e ao teclado.
 function bindEvents() {
 	projectsSection.addEventListener("click", (event) => {
 		if (event.target.closest("a, button, input, select, textarea, label"))
@@ -411,6 +512,11 @@ function bindEvents() {
 
 	document.addEventListener("keydown", (event) => {
 		if (event.key === "Escape") {
+			// Fecha primeiro o menu mobile se estiver aberto.
+			if (document.body.classList.contains("menu-open")) {
+				closeMobileMenu();
+			}
+			// Se a foto ampliada estiver aberta, fecha antes da galeria.
 			if (photoLightbox && photoLightbox.classList.contains("open")) {
 				closePhotoLightbox();
 				return;
@@ -420,6 +526,8 @@ function bindEvents() {
 	});
 }
 
+// Ponto de arranque do site.
+// Aqui o JS inicializa todas as áreas dinâmicas e atualiza o ano do rodapé.
 function init() {
 	renderProjects();
 	renderServices();
@@ -430,6 +538,7 @@ function init() {
 	setupReviewForm();
 	setupThemeToggle();
 	setupHeaderScroll();
+	setupMobileMenu();
 	bindEvents();
 	document.getElementById("year").textContent = new Date().getFullYear();
 }
