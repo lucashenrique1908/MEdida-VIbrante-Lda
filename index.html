@@ -9,7 +9,7 @@
 			name="description"
 			content="Instalação, manutenção e reparação de ar condicionado em Lisboa e Margem Sul."
 		/>
-		<link rel="shortcut icon" href="img/projetos/slogan.png" type="image/x-icon">
+		<link rel="shortcut icon" href="img/projetos/imgGerais/slogan.png" type="image/x-icon">
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -26,7 +26,7 @@
 				<a href="#topo" class="logo" aria-label="Medida Vibrante Lda">
 					<img
 						id="brand-logo"
-						src="img/projetos/slogan.png"
+						src="img/projetos/imgGerais/slogan.png"
 						alt="Slogan da Medida Vibrante Lda"
 					/>
 					<span class="company-name">Medida Vibrante Lda</span>
@@ -90,7 +90,7 @@
 				<div class="container hero-grid">
 					<div>
 						<p class="eyebrow">Climatização Profissional</p>
-						<h1>Soluções de Ar Condicionado para Casas e Empresas</h1>
+						<h1>Soluções em Ar Condicionado para casas, apartamentos e empresas</h1>
 						<p>
 							Instalação, higienização e reparação com foco em eficiência,
 							conforto e confiança.
@@ -106,7 +106,7 @@
 				<div class="container about-grid">
 					<div class="about-image-wrap">
 						<img
-							src="img/projetos/img7.jpeg"
+							src="img/projetos/imgGerais/img7.jpeg"
 							alt="Técnico da Medida Vibrante a realizar instalação de ar condicionado"
 							onerror="
 								this.src =
@@ -133,22 +133,26 @@
 			</section>
 
 			<!-- Secção de projetos; o JavaScript preenche o preview e abre a galeria ao clicar. -->
-			<section
-				id="projetos"
-				class="section section-dark clickable-section"
-				tabindex="0"
-			>
+			<section id="projetos" class="section section-dark">
 				<div class="container">
 					<div class="section-head">
 						<p class="eyebrow">Projetos Realizados</p>
 						<h2>Alguns trabalhos da Medida Vibrante</h2>
 						<p>
-							Clique em qualquer área desta secção para abrir a galeria
-							completa.
+							Veja os álbuns abaixo e abra o trabalho que quiser explorar.
 						</p>
 					</div>
 					<!-- O conteúdo desta grelha é renderizado em renderProjects(), em js/script.js. -->
 					<div id="preview-grid" class="project-grid"></div>
+					<button
+						type="button"
+						id="open-full-gallery"
+						class="gallery-more"
+						aria-label="Abrir galeria completa"
+					>
+						<span>galeria completa..</span>
+						<span class="gallery-more-icon" aria-hidden="true">→</span>
+					</button>
 				</div>
 			</section>
 
@@ -474,10 +478,46 @@
 			>
 				×
 			</button>
-			<div id="gallery-grid" class="gallery-grid"></div>
+			<div class="lightbox-panel">
+				<div class="gallery-toolbar">
+					<div class="gallery-copy">
+						<p id="gallery-subtitle" class="gallery-subtitle">
+							Escolha um álbum para ver o trabalho completo.
+						</p>
+						<h3 id="gallery-title" class="gallery-title">
+							Galeria de Trabalhos
+						</h3>
+					</div>
+					<button
+						type="button"
+						id="gallery-back"
+						class="gallery-back"
+						hidden
+					>
+						← Voltar aos álbuns
+					</button>
+				</div>
+				<div id="gallery-grid" class="gallery-grid"></div>
+			</div>
 		</div>
 		<!-- Modal de ampliação de uma única fotografia da galeria. -->
 		<div id="photo-lightbox" class="photo-lightbox" aria-hidden="true">
+			<button
+				type="button"
+				class="photo-lightbox-nav photo-lightbox-prev"
+				id="photo-lightbox-prev"
+				aria-label="Ver foto anterior"
+			>
+				‹
+			</button>
+			<button
+				type="button"
+				class="photo-lightbox-nav photo-lightbox-next"
+				id="photo-lightbox-next"
+				aria-label="Ver próxima foto"
+			>
+				›
+			</button>
 			<button
 				class="photo-lightbox-close"
 				id="close-photo-lightbox"

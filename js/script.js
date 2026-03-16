@@ -9,6 +9,7 @@ import {
 	query,
 	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { PROJECT_ALBUMS } from "./project-albums.js";
 
 // Lista textual usada no marquee de serviços e no select do formulário.
 const SERVICES = [
@@ -21,44 +22,6 @@ const SERVICES = [
 	"Cassetes de teto",
 	"Unidades de condutas",
 	"Reparação de ar condicionado",
-];
-
-// Galeria base de projetos; o preview e o lightbox são gerados a partir deste array.
-const PROJECTS = [
-	{
-		src: "img/projetos/img1.jpeg",
-		desc: "Instalação de unidade interior mural.",
-	},
-	{
-		src: "img/projetos/img2.jpeg",
-		desc: "Montagem de sistema Multi Split residencial.",
-	},
-	{
-		src: "img/projetos/img3.jpeg",
-		desc: "Higienização técnica de equipamento.",
-	},
-	{
-		src: "img/projetos/img4.jpeg",
-		desc: "Reparação de ar condicionado com teste final.",
-	},
-	{ src: "img/projetos/img5.jpeg", desc: "Instalação de cassete de teto." },
-	{ src: "img/projetos/img6.jpeg", desc: "Trabalho em sistema com condutas." },
-	{
-		src: "img/projetos/img7.jpeg",
-		desc: "Substituição de equipamento antigo.",
-	},
-	{
-		src: "img/projetos/img8.jpeg",
-		desc: "Instalação e ajuste de unidade exterior.",
-	},
-	{
-		src: "img/projetos/img9.jpeg",
-		desc: "Intervenção de manutenção preventiva.",
-	},
-	{
-		src: "img/projetos/img10.jpeg",
-		desc: "Finalização e validação de desempenho.",
-	},
 ];
 
 // Imagem remota de fallback caso alguma foto local falhe no carregamento.
@@ -122,6 +85,7 @@ const PHONE_COUNTRIES = [
 // Referências para as áreas de projetos e modais.
 const previewGrid = document.getElementById("preview-grid");
 const galleryGrid = document.getElementById("gallery-grid");
+// A secção continua referenciada como âncora estrutural da galeria na página inicial.
 const projectsSection = document.getElementById("projetos");
 const lightbox = document.getElementById("lightbox");
 const closeLightboxButton = document.getElementById("close-lightbox");
@@ -130,6 +94,12 @@ const closePhotoLightboxButton = document.getElementById(
 	"close-photo-lightbox",
 );
 const photoLightboxImage = document.getElementById("photo-lightbox-image");
+const photoLightboxPrevButton = document.getElementById("photo-lightbox-prev");
+const photoLightboxNextButton = document.getElementById("photo-lightbox-next");
+const galleryTitle = document.getElementById("gallery-title");
+const gallerySubtitle = document.getElementById("gallery-subtitle");
+const galleryBackButton = document.getElementById("gallery-back");
+const openFullGalleryButton = document.getElementById("open-full-gallery");
 // Referências para os serviços e formulário de contacto.
 const marqueeTrack = document.getElementById("marquee-track");
 const serviceSelect = document.getElementById("servico-select");
@@ -163,11 +133,23 @@ const reviewRatingRoot = document.getElementById("review-rating");
 const reviewStarsField = document.getElementById("review_stars");
 const reviewsList = document.getElementById("reviews-list");
 const reviewsStatus = document.getElementById("reviews-status");
+// Limita o home a cinco álbuns e define o texto padrão usado no modal da galeria.
+const GALLERY_PREVIEW_LIMIT = 5;
+const GALLERY_HOME_TITLE = "Galeria de Trabalhos";
+const GALLERY_HOME_SUBTITLE = "Escolha um álbum para ver o trabalho completo.";
+// Filtra o ficheiro de dados para garantir que só entram álbuns com fotos válidas.
+const PROJECT_ALBUM_LIST = PROJECT_ALBUMS.filter(
+	(album) => Array.isArray(album.photos) && album.photos.length,
+);
+// Guarda o álbum atualmente aberto dentro do modal para controlar navegação e estado.
+let currentAlbumId = null;
+// Guarda o índice da foto aberta no lightbox ampliado para ativar navegação por setas.
+let currentPhotoIndex = -1;
 
 let db = null;
 // O JS troca estas imagens em applyTheme() quando o utilizador alterna o tema.
-const LOGO_LIGHT = "img/projetos/slogan.png";
-const LOGO_DARK = "img/projetos/sloganVersao2.png";
+const LOGO_LIGHT = "img/projetos/imgGerais/slogan.png";
+const LOGO_DARK = "img/projetos/imgGerais/sloganVersao2.png";
 let selectedPhoneCountry =
 	PHONE_COUNTRIES.find((country) => country.code === "PT") || PHONE_COUNTRIES[0];
 
@@ -386,6 +368,7 @@ function openPhoneCountryPanel() {
 	});
 }
 
+// Fecha o painel de países e devolve o campo composto ao estado normal do formulário.
 function closePhoneCountryPanel() {
 	if (!phoneCountryPanel || !phoneCountryButton) {
 		return;
@@ -456,60 +439,248 @@ function setupContactValidation() {
 	}
 }
 
-// Cria o cartão visual de cada projeto, tanto no preview como dentro da galeria.
-function createProjectCard(project, options = {}) {
-	const { zoomable = false } = options;
-	const card = document.createElement("article");
-	card.className = "project-card";
-	const imageMarkup = zoomable
-		? `<button type="button" class="project-zoom" data-src="${project.src}" data-alt="${project.desc}" aria-label="Ampliar foto do projeto">
-        <img src="${project.src}" alt="${project.desc}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'" />
-      </button>`
-		: `<img src="${project.src}" alt="${project.desc}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'" />`;
+// Injeta um fallback remoto se alguma imagem local do projeto ou do álbum falhar ao carregar.
+function setImageFallback(image) {
+	image.onerror = () => {
+		image.onerror = null;
+		image.src = FALLBACK_IMAGE;
+	};
+}
 
-	card.innerHTML = `
-    ${imageMarkup}
-    <div class="info">${project.desc}</div>
-  `;
+// Cria a tag <img> base usada tanto no preview dos álbuns como nas fotos internas do lightbox.
+function createProjectImage(photo) {
+	const image = document.createElement("img");
+	image.src = photo.src;
+	image.alt = photo.alt;
+	image.loading = "lazy";
+	setImageFallback(image);
+	return image;
+}
+
+// Procura um álbum pelo id vindo do botão clicado em renderProjects() ou renderAlbumList().
+function getAlbumById(albumId) {
+	return PROJECT_ALBUM_LIST.find((album) => album.id === albumId) || null;
+}
+
+// Devolve o álbum atualmente aberto no modal principal; serve de base à navegação da foto ampliada.
+function getCurrentAlbum() {
+	return currentAlbumId ? getAlbumById(currentAlbumId) : null;
+}
+
+// Separa as três primeiras fotos para compor a capa empilhada do álbum na home e no modal.
+function getAlbumPreviewPhotos(album) {
+	return album.photos.slice(0, 3);
+}
+
+// Atualiza os textos do topo do modal conforme o utilizador navega entre lista e álbum interno.
+function updateGalleryHeader(title, subtitle, showBackButton = false) {
+	if (galleryTitle) galleryTitle.textContent = title;
+	if (gallerySubtitle) gallerySubtitle.textContent = subtitle;
+	if (galleryBackButton) galleryBackButton.hidden = !showBackButton;
+}
+
+// Estado vazio reutilizável quando não existem álbuns ou fotos para apresentar.
+function createEmptyGalleryState(message) {
+	const emptyState = document.createElement("div");
+	emptyState.className = "gallery-empty";
+	emptyState.textContent = message;
+	return emptyState;
+}
+
+// Monta cada cartão de álbum ligado ao CSS .album-stack e ao clique tratado em bindEvents().
+function createAlbumCard(album) {
+	const card = document.createElement("article");
+	card.className = "project-card project-album-card";
+
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.className = "project-album-trigger";
+	trigger.dataset.albumId = album.id;
+	trigger.setAttribute("aria-label", `Abrir álbum ${album.title}`);
+
+	const stack = document.createElement("div");
+	stack.className = "album-stack";
+
+	getAlbumPreviewPhotos(album).forEach((photo) => {
+		const layer = document.createElement("div");
+		layer.className = "album-stack-photo";
+		layer.appendChild(createProjectImage(photo));
+		stack.appendChild(layer);
+	});
+
+	const info = document.createElement("div");
+	info.className = "info";
+
+	const meta = document.createElement("div");
+	meta.className = "album-meta";
+
+	const textWrap = document.createElement("div");
+
+	const title = document.createElement("h3");
+	title.textContent = album.title;
+
+	const description = document.createElement("p");
+	description.textContent = "Clique para abrir este álbum";
+
+	textWrap.append(title, description);
+
+	const count = document.createElement("span");
+	count.className = "album-count";
+	count.textContent = `${album.photos.length} fotos`;
+
+	meta.append(textWrap, count);
+	info.appendChild(meta);
+	trigger.append(stack, info);
+	card.appendChild(trigger);
 	return card;
 }
 
-// Renderiza apenas os primeiros projetos na secção de preview da página.
+// Monta cada foto do álbum aberto; o CSS usa --photo-shift para espalhar lateralmente as cartas.
+function createProjectPhotoCard(photo, index, album) {
+	const card = document.createElement("article");
+	card.className = "project-card project-photo-card";
+	card.style.setProperty("--photo-shift", `${Math.min(index * 6, 30)}px`);
+
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.className = "project-zoom";
+	trigger.dataset.src = photo.src;
+	trigger.dataset.alt = photo.alt;
+	trigger.dataset.index = String(index);
+	trigger.setAttribute("aria-label", `Ampliar ${photo.alt}`);
+	trigger.appendChild(createProjectImage(photo));
+
+	const info = document.createElement("div");
+	info.className = "info";
+	info.textContent = `Foto ${index + 1} de ${album.photos.length}`;
+
+	card.append(trigger, info);
+	return card;
+}
+
+// Renderiza apenas os cinco álbuns do preview da home dentro de #preview-grid.
 function renderProjects() {
 	previewGrid.innerHTML = "";
-	PROJECTS.slice(0, 5).forEach((project) => {
-		previewGrid.appendChild(createProjectCard(project));
+	const previewAlbums = PROJECT_ALBUM_LIST.slice(0, GALLERY_PREVIEW_LIMIT);
+	if (!previewAlbums.length) {
+		previewGrid.appendChild(
+			createEmptyGalleryState("Nenhum álbum de projetos disponível de momento."),
+		);
+		return;
+	}
+	previewAlbums.forEach((album) => {
+		previewGrid.appendChild(createAlbumCard(album));
 	});
 }
 
-// Abre o modal principal da galeria e popula todas as imagens disponíveis.
-function openGallery() {
+// Mostra a lista completa de álbuns dentro do modal principal da galeria.
+function renderAlbumList() {
 	galleryGrid.innerHTML = "";
-	PROJECTS.forEach((project) =>
-		galleryGrid.appendChild(createProjectCard(project, { zoomable: true })),
+	galleryGrid.classList.remove("is-album-view");
+	currentAlbumId = null;
+	updateGalleryHeader(GALLERY_HOME_TITLE, GALLERY_HOME_SUBTITLE, false);
+
+	if (!PROJECT_ALBUM_LIST.length) {
+		galleryGrid.appendChild(
+			createEmptyGalleryState("Ainda não existem álbuns publicados."),
+		);
+		return;
+	}
+
+	PROJECT_ALBUM_LIST.forEach((album) => {
+		galleryGrid.appendChild(createAlbumCard(album));
+	});
+}
+
+// Abre um álbum específico dentro do modal e substitui a lista por todas as fotos daquele trabalho.
+function openAlbum(albumId) {
+	const album = getAlbumById(albumId);
+	if (!album) {
+		renderAlbumList();
+		return;
+	}
+
+	currentAlbumId = album.id;
+	galleryGrid.innerHTML = "";
+	galleryGrid.classList.add("is-album-view");
+	updateGalleryHeader(
+		album.title,
+		`${album.photos.length} fotografias neste trabalho.`,
+		true,
 	);
+
+	album.photos.forEach((photo, index) => {
+		galleryGrid.appendChild(createProjectPhotoCard(photo, index, album));
+	});
+}
+
+// Abre o modal principal da galeria e mostra os álbuns ou um álbum específico.
+function openGallery(albumId = null) {
 	lightbox.classList.add("open");
 	lightbox.setAttribute("aria-hidden", "false");
+	if (albumId) {
+		openAlbum(albumId);
+	} else {
+		renderAlbumList();
+	}
 	updateBodyLock();
 }
 
 // Fecha o modal principal da galeria.
 function closeGallery() {
 	closePhotoLightbox();
+	currentAlbumId = null;
 	lightbox.classList.remove("open");
 	lightbox.setAttribute("aria-hidden", "true");
+	galleryGrid.classList.remove("is-album-view");
 	updateBodyLock();
 }
 
+// Atualiza a visibilidade das setas da foto ampliada conforme a posição atual dentro do álbum.
+function syncPhotoLightboxNavigation(album, index) {
+	if (!photoLightboxPrevButton || !photoLightboxNextButton) {
+		return;
+	}
+
+	const totalPhotos = album?.photos?.length || 0;
+	photoLightboxPrevButton.hidden = index <= 0;
+	photoLightboxNextButton.hidden = index < 0 || index >= totalPhotos - 1;
+}
+
+// Troca a foto ampliada para um índice específico do álbum aberto sem fechar o lightbox.
+function showPhotoAtIndex(index) {
+	const album = getCurrentAlbum();
+	if (!album || !photoLightboxImage) {
+		return;
+	}
+
+	if (index < 0 || index >= album.photos.length) {
+		return;
+	}
+
+	const photo = album.photos[index];
+	currentPhotoIndex = index;
+	photoLightboxImage.src = photo.src;
+	photoLightboxImage.alt = photo.alt;
+	syncPhotoLightboxNavigation(album, index);
+}
+
 // Abre a ampliação de uma foto específica clicada dentro da galeria.
-function openPhotoLightbox(src, altText = "Foto do projeto ampliada") {
+function openPhotoLightbox(index, src, altText = "Foto do projeto ampliada") {
 	if (!photoLightbox || !photoLightboxImage) {
 		return;
 	}
-	photoLightboxImage.src = src;
-	photoLightboxImage.alt = altText;
 	photoLightbox.classList.add("open");
 	photoLightbox.setAttribute("aria-hidden", "false");
+	const numericIndex = Number(index);
+	if (Number.isInteger(numericIndex) && numericIndex >= 0) {
+		showPhotoAtIndex(numericIndex);
+	} else {
+		currentPhotoIndex = -1;
+		photoLightboxImage.src = src;
+		photoLightboxImage.alt = altText;
+		syncPhotoLightboxNavigation(null, -1);
+	}
 	updateBodyLock();
 }
 
@@ -521,7 +692,24 @@ function closePhotoLightbox() {
 	photoLightbox.classList.remove("open");
 	photoLightbox.setAttribute("aria-hidden", "true");
 	photoLightboxImage.src = "";
+	currentPhotoIndex = -1;
+	syncPhotoLightboxNavigation(null, -1);
 	updateBodyLock();
+}
+
+// Avança ou recua no álbum atual a partir da foto já aberta no visualizador ampliado.
+function stepPhotoLightbox(direction) {
+	const album = getCurrentAlbum();
+	if (!album || currentPhotoIndex < 0) {
+		return;
+	}
+
+	const nextIndex = currentPhotoIndex + direction;
+	if (nextIndex < 0 || nextIndex >= album.photos.length) {
+		return;
+	}
+
+	showPhotoAtIndex(nextIndex);
 }
 
 // Centraliza o bloqueio de scroll do body.
@@ -849,18 +1037,18 @@ function setupReviewForm() {
 
 // Concentra todos os listeners globais ligados à galeria e ao teclado.
 function bindEvents() {
-	projectsSection.addEventListener("click", (event) => {
-		if (event.target.closest("a, button, input, select, textarea, label"))
-			return;
-		openGallery();
+	previewGrid.addEventListener("click", (event) => {
+		const albumTrigger = event.target.closest(".project-album-trigger");
+		if (!albumTrigger) return;
+		openGallery(albumTrigger.dataset.albumId);
 	});
 
-	projectsSection.addEventListener("keydown", (event) => {
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
+	// O CTA abaixo dos cinco álbuns abre o modal com a lista completa de trabalhos.
+	if (openFullGalleryButton) {
+		openFullGalleryButton.addEventListener("click", () => {
 			openGallery();
-		}
-	});
+		});
+	}
 
 	closeLightboxButton.addEventListener("click", closeGallery);
 
@@ -869,13 +1057,40 @@ function bindEvents() {
 	});
 
 	galleryGrid.addEventListener("click", (event) => {
+		const albumTrigger = event.target.closest(".project-album-trigger");
+		if (albumTrigger) {
+			openAlbum(albumTrigger.dataset.albumId);
+			return;
+		}
 		const trigger = event.target.closest(".project-zoom");
 		if (!trigger) return;
-		openPhotoLightbox(trigger.dataset.src, trigger.dataset.alt);
+		openPhotoLightbox(
+			trigger.dataset.index,
+			trigger.dataset.src,
+			trigger.dataset.alt,
+		);
 	});
+
+	if (galleryBackButton) {
+		galleryBackButton.addEventListener("click", () => {
+			renderAlbumList();
+		});
+	}
 
 	if (closePhotoLightboxButton) {
 		closePhotoLightboxButton.addEventListener("click", closePhotoLightbox);
+	}
+
+	if (photoLightboxPrevButton) {
+		photoLightboxPrevButton.addEventListener("click", () => {
+			stepPhotoLightbox(-1);
+		});
+	}
+
+	if (photoLightboxNextButton) {
+		photoLightboxNextButton.addEventListener("click", () => {
+			stepPhotoLightbox(1);
+		});
 	}
 
 	if (photoLightbox) {
@@ -885,6 +1100,24 @@ function bindEvents() {
 	}
 
 	document.addEventListener("keydown", (event) => {
+		if (
+			photoLightbox &&
+			photoLightbox.classList.contains("open") &&
+			event.key === "ArrowLeft"
+		) {
+			stepPhotoLightbox(-1);
+			return;
+		}
+
+		if (
+			photoLightbox &&
+			photoLightbox.classList.contains("open") &&
+			event.key === "ArrowRight"
+		) {
+			stepPhotoLightbox(1);
+			return;
+		}
+
 		if (event.key === "Escape") {
 			// Fecha primeiro o menu mobile se estiver aberto.
 			if (document.body.classList.contains("menu-open")) {
