@@ -396,23 +396,140 @@ p {
 /* Grelha institucional da secção "Sobre". */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 1.5rem;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.about-story {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.15rem;
+  align-self: start;
 }
 
 .about-image-wrap {
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--line);
-  min-height: 360px;
+  min-height: 300px;
   background: var(--card);
+  box-shadow: 0 16px 34px rgba(10, 31, 62, 0.12);
 }
 
 .about-image-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+}
+
+.about-copy {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+  padding: 0.1rem 0;
+}
+
+.about-promo-card {
+  align-self: start;
+  display: grid;
+  grid-template-rows: auto auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(47, 111, 255, 0.12), rgba(255, 255, 255, 0)),
+    var(--card);
+  box-shadow: 0 18px 34px rgba(10, 31, 62, 0.14);
+}
+
+.about-promo-media {
+  min-height: 168px;
+}
+
+.about-promo-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-promo-content {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem 1rem 1.05rem;
+}
+
+.about-promo-kicker {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.about-promo-title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(1.4rem, 2vw, 1.95rem);
+  line-height: 0.98;
+  color: #c21f32;
+  animation: promoLightBlink 1.2s steps(1, end) infinite;
+}
+
+.about-promo-title-line {
+  margin-top: 4px;
+}
+
+.about-promo-text {
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+
+.about-promo-btn {
+  width: auto;
+  min-height: 42px;
+  padding: 0.5rem 1rem;
+  margin-top: 0.15rem;
+  justify-self: start;
+}
+
+body.theme-dark .about-promo-card {
+  background:
+    linear-gradient(180deg, rgba(126, 166, 255, 0.12), rgba(17, 23, 34, 0.96)),
+    var(--card);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .about-promo-title {
+  color: #f7faff;
+  animation: promoDarkBlink 1.15s steps(1, end) infinite;
+}
+
+@keyframes promoLightBlink {
+  0%,
+  49% {
+    color: #c21f32;
+  }
+
+  50%,
+  100% {
+    color: #123a66;
+  }
+}
+
+@keyframes promoDarkBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Grelha de projetos usada tanto no preview como na galeria. */
@@ -952,6 +1069,39 @@ p {
   color: var(--muted);
 }
 
+.footer-social-title {
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.footer-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  color: #fff;
+  font-weight: bold;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  font-size: 1.3rem;
+  font-style: italic;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.footer-social-link svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
 /* Overlay da galeria completa dos projetos. */
 .lightbox {
   position: fixed;
@@ -1174,6 +1324,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .about-promo-card {
+    grid-column: auto;
+  }
+
   .project-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1193,6 +1347,18 @@ p {
 @media (max-width: 680px) {
   .container {
     width: min(1120px, 94%);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-image-wrap {
+    min-height: 260px;
+  }
+
+  .about-promo-content {
+    padding: 0.95rem 0.95rem 1rem;
   }
 
   .nav-wrap {
