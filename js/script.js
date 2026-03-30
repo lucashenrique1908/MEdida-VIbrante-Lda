@@ -31,55 +31,365 @@ const FALLBACK_IMAGE =
 const WHATSAPP_NUMBER = "351967722023";
 // Lista de países com bandeira, prefixo e aliases para pesquisa flexível.
 const PHONE_COUNTRIES = [
-	{ code: "PT", flag: "🇵🇹", dialCode: "+351", name: "Portugal", aliases: ["portugal", "portugalia", "portugese republic"] },
-	{ code: "ES", flag: "🇪🇸", dialCode: "+34", name: "Spain", aliases: ["espanha", "espana", "spain"] },
-	{ code: "FR", flag: "🇫🇷", dialCode: "+33", name: "France", aliases: ["franca", "france", "francia"] },
-	{ code: "DE", flag: "🇩🇪", dialCode: "+49", name: "Germany", aliases: ["alemanha", "germany", "deutschland"] },
-	{ code: "IT", flag: "🇮🇹", dialCode: "+39", name: "Italy", aliases: ["italia", "italy"] },
-	{ code: "GB", flag: "🇬🇧", dialCode: "+44", name: "United Kingdom", aliases: ["reino unido", "uk", "england", "great britain", "united kingdom"] },
-	{ code: "IE", flag: "🇮🇪", dialCode: "+353", name: "Ireland", aliases: ["irlanda", "ireland"] },
-	{ code: "NL", flag: "🇳🇱", dialCode: "+31", name: "Netherlands", aliases: ["paises baixos", "netherlands", "holland", "holanda"] },
-	{ code: "BE", flag: "🇧🇪", dialCode: "+32", name: "Belgium", aliases: ["belgica", "belgium", "belgique"] },
-	{ code: "LU", flag: "🇱🇺", dialCode: "+352", name: "Luxembourg", aliases: ["luxemburgo", "luxembourg"] },
-	{ code: "CH", flag: "🇨🇭", dialCode: "+41", name: "Switzerland", aliases: ["suica", "switzerland", "suisse", "schweiz"] },
-	{ code: "AT", flag: "🇦🇹", dialCode: "+43", name: "Austria", aliases: ["austria", "osterreich"] },
-	{ code: "SE", flag: "🇸🇪", dialCode: "+46", name: "Sweden", aliases: ["suecia", "sweden", "sverige"] },
-	{ code: "NO", flag: "🇳🇴", dialCode: "+47", name: "Norway", aliases: ["noruega", "norway", "norge"] },
-	{ code: "DK", flag: "🇩🇰", dialCode: "+45", name: "Denmark", aliases: ["dinamarca", "denmark", "danmark"] },
-	{ code: "FI", flag: "🇫🇮", dialCode: "+358", name: "Finland", aliases: ["finlandia", "finland", "suomi"] },
-	{ code: "PL", flag: "🇵🇱", dialCode: "+48", name: "Poland", aliases: ["polonia", "poland"] },
-	{ code: "CZ", flag: "🇨🇿", dialCode: "+420", name: "Czechia", aliases: ["republica checa", "czech republic", "czechia", "chequia"] },
-	{ code: "RO", flag: "🇷🇴", dialCode: "+40", name: "Romania", aliases: ["romenia", "romania"] },
-	{ code: "BG", flag: "🇧🇬", dialCode: "+359", name: "Bulgaria", aliases: ["bulgaria"] },
-	{ code: "GR", flag: "🇬🇷", dialCode: "+30", name: "Greece", aliases: ["grecia", "greece", "ellas"] },
-	{ code: "TR", flag: "🇹🇷", dialCode: "+90", name: "Turkey", aliases: ["turquia", "turkey", "turkiye"] },
-	{ code: "US", flag: "🇺🇸", dialCode: "+1", name: "United States", aliases: ["estados unidos", "usa", "us", "united states", "america"] },
-	{ code: "CA", flag: "🇨🇦", dialCode: "+1", name: "Canada", aliases: ["canada"] },
-	{ code: "MX", flag: "🇲🇽", dialCode: "+52", name: "Mexico", aliases: ["mexico", "méxico"] },
-	{ code: "BR", flag: "🇧🇷", dialCode: "+55", name: "Brazil", aliases: ["brasil", "brazil"] },
-	{ code: "AR", flag: "🇦🇷", dialCode: "+54", name: "Argentina", aliases: ["argentina"] },
-	{ code: "CL", flag: "🇨🇱", dialCode: "+56", name: "Chile", aliases: ["chile"] },
-	{ code: "CO", flag: "🇨🇴", dialCode: "+57", name: "Colombia", aliases: ["colombia"] },
-	{ code: "PE", flag: "🇵🇪", dialCode: "+51", name: "Peru", aliases: ["peru", "perú"] },
-	{ code: "VE", flag: "🇻🇪", dialCode: "+58", name: "Venezuela", aliases: ["venezuela"] },
-	{ code: "MA", flag: "🇲🇦", dialCode: "+212", name: "Morocco", aliases: ["marrocos", "morocco", "marruecos"] },
-	{ code: "DZ", flag: "🇩🇿", dialCode: "+213", name: "Algeria", aliases: ["argelia", "algeria", "algérie"] },
-	{ code: "TN", flag: "🇹🇳", dialCode: "+216", name: "Tunisia", aliases: ["tunisia", "tunisia", "tunisie"] },
-	{ code: "AO", flag: "🇦🇴", dialCode: "+244", name: "Angola", aliases: ["angola"] },
-	{ code: "MZ", flag: "🇲🇿", dialCode: "+258", name: "Mozambique", aliases: ["mozambique", "moçambique"] },
-	{ code: "CV", flag: "🇨🇻", dialCode: "+238", name: "Cape Verde", aliases: ["cabo verde", "cape verde"] },
-	{ code: "GW", flag: "🇬🇼", dialCode: "+245", name: "Guinea-Bissau", aliases: ["guine bissau", "guinea-bissau", "guine-bissau"] },
-	{ code: "ST", flag: "🇸🇹", dialCode: "+239", name: "Sao Tome and Principe", aliases: ["sao tome", "sao tome e principe", "são tomé", "são tomé e príncipe"] },
-	{ code: "ZA", flag: "🇿🇦", dialCode: "+27", name: "South Africa", aliases: ["africa do sul", "south africa"] },
-	{ code: "AE", flag: "🇦🇪", dialCode: "+971", name: "United Arab Emirates", aliases: ["emirados arabes unidos", "uae", "emirates", "united arab emirates"] },
-	{ code: "SA", flag: "🇸🇦", dialCode: "+966", name: "Saudi Arabia", aliases: ["arabia saudita", "saudi arabia"] },
-	{ code: "QA", flag: "🇶🇦", dialCode: "+974", name: "Qatar", aliases: ["qatar", "catar"] },
-	{ code: "IN", flag: "🇮🇳", dialCode: "+91", name: "India", aliases: ["india", "índia", "bharat"] },
-	{ code: "CN", flag: "🇨🇳", dialCode: "+86", name: "China", aliases: ["china", "zhongguo"] },
-	{ code: "JP", flag: "🇯🇵", dialCode: "+81", name: "Japan", aliases: ["japao", "japão", "japan", "nihon"] },
-	{ code: "KR", flag: "🇰🇷", dialCode: "+82", name: "South Korea", aliases: ["coreia do sul", "south korea", "korea"] },
-	{ code: "AU", flag: "🇦🇺", dialCode: "+61", name: "Australia", aliases: ["australia"] },
-	{ code: "NZ", flag: "🇳🇿", dialCode: "+64", name: "New Zealand", aliases: ["nova zelandia", "new zealand"] },
+	{
+		code: "PT",
+		flag: "🇵🇹",
+		dialCode: "+351",
+		name: "Portugal",
+		aliases: ["portugal", "portugalia", "portugese republic"],
+	},
+	{
+		code: "ES",
+		flag: "🇪🇸",
+		dialCode: "+34",
+		name: "Spain",
+		aliases: ["espanha", "espana", "spain"],
+	},
+	{
+		code: "FR",
+		flag: "🇫🇷",
+		dialCode: "+33",
+		name: "France",
+		aliases: ["franca", "france", "francia"],
+	},
+	{
+		code: "DE",
+		flag: "🇩🇪",
+		dialCode: "+49",
+		name: "Germany",
+		aliases: ["alemanha", "germany", "deutschland"],
+	},
+	{
+		code: "IT",
+		flag: "🇮🇹",
+		dialCode: "+39",
+		name: "Italy",
+		aliases: ["italia", "italy"],
+	},
+	{
+		code: "GB",
+		flag: "🇬🇧",
+		dialCode: "+44",
+		name: "United Kingdom",
+		aliases: [
+			"reino unido",
+			"uk",
+			"england",
+			"great britain",
+			"united kingdom",
+		],
+	},
+	{
+		code: "IE",
+		flag: "🇮🇪",
+		dialCode: "+353",
+		name: "Ireland",
+		aliases: ["irlanda", "ireland"],
+	},
+	{
+		code: "NL",
+		flag: "🇳🇱",
+		dialCode: "+31",
+		name: "Netherlands",
+		aliases: ["paises baixos", "netherlands", "holland", "holanda"],
+	},
+	{
+		code: "BE",
+		flag: "🇧🇪",
+		dialCode: "+32",
+		name: "Belgium",
+		aliases: ["belgica", "belgium", "belgique"],
+	},
+	{
+		code: "LU",
+		flag: "🇱🇺",
+		dialCode: "+352",
+		name: "Luxembourg",
+		aliases: ["luxemburgo", "luxembourg"],
+	},
+	{
+		code: "CH",
+		flag: "🇨🇭",
+		dialCode: "+41",
+		name: "Switzerland",
+		aliases: ["suica", "switzerland", "suisse", "schweiz"],
+	},
+	{
+		code: "AT",
+		flag: "🇦🇹",
+		dialCode: "+43",
+		name: "Austria",
+		aliases: ["austria", "osterreich"],
+	},
+	{
+		code: "SE",
+		flag: "🇸🇪",
+		dialCode: "+46",
+		name: "Sweden",
+		aliases: ["suecia", "sweden", "sverige"],
+	},
+	{
+		code: "NO",
+		flag: "🇳🇴",
+		dialCode: "+47",
+		name: "Norway",
+		aliases: ["noruega", "norway", "norge"],
+	},
+	{
+		code: "DK",
+		flag: "🇩🇰",
+		dialCode: "+45",
+		name: "Denmark",
+		aliases: ["dinamarca", "denmark", "danmark"],
+	},
+	{
+		code: "FI",
+		flag: "🇫🇮",
+		dialCode: "+358",
+		name: "Finland",
+		aliases: ["finlandia", "finland", "suomi"],
+	},
+	{
+		code: "PL",
+		flag: "🇵🇱",
+		dialCode: "+48",
+		name: "Poland",
+		aliases: ["polonia", "poland"],
+	},
+	{
+		code: "CZ",
+		flag: "🇨🇿",
+		dialCode: "+420",
+		name: "Czechia",
+		aliases: ["republica checa", "czech republic", "czechia", "chequia"],
+	},
+	{
+		code: "RO",
+		flag: "🇷🇴",
+		dialCode: "+40",
+		name: "Romania",
+		aliases: ["romenia", "romania"],
+	},
+	{
+		code: "BG",
+		flag: "🇧🇬",
+		dialCode: "+359",
+		name: "Bulgaria",
+		aliases: ["bulgaria"],
+	},
+	{
+		code: "GR",
+		flag: "🇬🇷",
+		dialCode: "+30",
+		name: "Greece",
+		aliases: ["grecia", "greece", "ellas"],
+	},
+	{
+		code: "TR",
+		flag: "🇹🇷",
+		dialCode: "+90",
+		name: "Turkey",
+		aliases: ["turquia", "turkey", "turkiye"],
+	},
+	{
+		code: "US",
+		flag: "🇺🇸",
+		dialCode: "+1",
+		name: "United States",
+		aliases: ["estados unidos", "usa", "us", "united states", "america"],
+	},
+	{
+		code: "CA",
+		flag: "🇨🇦",
+		dialCode: "+1",
+		name: "Canada",
+		aliases: ["canada"],
+	},
+	{
+		code: "MX",
+		flag: "🇲🇽",
+		dialCode: "+52",
+		name: "Mexico",
+		aliases: ["mexico", "méxico"],
+	},
+	{
+		code: "BR",
+		flag: "🇧🇷",
+		dialCode: "+55",
+		name: "Brazil",
+		aliases: ["brasil", "brazil"],
+	},
+	{
+		code: "AR",
+		flag: "🇦🇷",
+		dialCode: "+54",
+		name: "Argentina",
+		aliases: ["argentina"],
+	},
+	{
+		code: "CL",
+		flag: "🇨🇱",
+		dialCode: "+56",
+		name: "Chile",
+		aliases: ["chile"],
+	},
+	{
+		code: "CO",
+		flag: "🇨🇴",
+		dialCode: "+57",
+		name: "Colombia",
+		aliases: ["colombia"],
+	},
+	{
+		code: "PE",
+		flag: "🇵🇪",
+		dialCode: "+51",
+		name: "Peru",
+		aliases: ["peru", "perú"],
+	},
+	{
+		code: "VE",
+		flag: "🇻🇪",
+		dialCode: "+58",
+		name: "Venezuela",
+		aliases: ["venezuela"],
+	},
+	{
+		code: "MA",
+		flag: "🇲🇦",
+		dialCode: "+212",
+		name: "Morocco",
+		aliases: ["marrocos", "morocco", "marruecos"],
+	},
+	{
+		code: "DZ",
+		flag: "🇩🇿",
+		dialCode: "+213",
+		name: "Algeria",
+		aliases: ["argelia", "algeria", "algérie"],
+	},
+	{
+		code: "TN",
+		flag: "🇹🇳",
+		dialCode: "+216",
+		name: "Tunisia",
+		aliases: ["tunisia", "tunisia", "tunisie"],
+	},
+	{
+		code: "AO",
+		flag: "🇦🇴",
+		dialCode: "+244",
+		name: "Angola",
+		aliases: ["angola"],
+	},
+	{
+		code: "MZ",
+		flag: "🇲🇿",
+		dialCode: "+258",
+		name: "Mozambique",
+		aliases: ["mozambique", "moçambique"],
+	},
+	{
+		code: "CV",
+		flag: "🇨🇻",
+		dialCode: "+238",
+		name: "Cape Verde",
+		aliases: ["cabo verde", "cape verde"],
+	},
+	{
+		code: "GW",
+		flag: "🇬🇼",
+		dialCode: "+245",
+		name: "Guinea-Bissau",
+		aliases: ["guine bissau", "guinea-bissau", "guine-bissau"],
+	},
+	{
+		code: "ST",
+		flag: "🇸🇹",
+		dialCode: "+239",
+		name: "Sao Tome and Principe",
+		aliases: [
+			"sao tome",
+			"sao tome e principe",
+			"são tomé",
+			"são tomé e príncipe",
+		],
+	},
+	{
+		code: "ZA",
+		flag: "🇿🇦",
+		dialCode: "+27",
+		name: "South Africa",
+		aliases: ["africa do sul", "south africa"],
+	},
+	{
+		code: "AE",
+		flag: "🇦🇪",
+		dialCode: "+971",
+		name: "United Arab Emirates",
+		aliases: [
+			"emirados arabes unidos",
+			"uae",
+			"emirates",
+			"united arab emirates",
+		],
+	},
+	{
+		code: "SA",
+		flag: "🇸🇦",
+		dialCode: "+966",
+		name: "Saudi Arabia",
+		aliases: ["arabia saudita", "saudi arabia"],
+	},
+	{
+		code: "QA",
+		flag: "🇶🇦",
+		dialCode: "+974",
+		name: "Qatar",
+		aliases: ["qatar", "catar"],
+	},
+	{
+		code: "IN",
+		flag: "🇮🇳",
+		dialCode: "+91",
+		name: "India",
+		aliases: ["india", "índia", "bharat"],
+	},
+	{
+		code: "CN",
+		flag: "🇨🇳",
+		dialCode: "+86",
+		name: "China",
+		aliases: ["china", "zhongguo"],
+	},
+	{
+		code: "JP",
+		flag: "🇯🇵",
+		dialCode: "+81",
+		name: "Japan",
+		aliases: ["japao", "japão", "japan", "nihon"],
+	},
+	{
+		code: "KR",
+		flag: "🇰🇷",
+		dialCode: "+82",
+		name: "South Korea",
+		aliases: ["coreia do sul", "south korea", "korea"],
+	},
+	{
+		code: "AU",
+		flag: "🇦🇺",
+		dialCode: "+61",
+		name: "Australia",
+		aliases: ["australia"],
+	},
+	{
+		code: "NZ",
+		flag: "🇳🇿",
+		dialCode: "+64",
+		name: "New Zealand",
+		aliases: ["nova zelandia", "new zealand"],
+	},
 ];
 
 // Referências para as áreas de projetos e modais.
@@ -121,7 +431,6 @@ const phoneCountrySearch = document.getElementById("phone-country-search");
 const phoneCountryList = document.getElementById("phone-country-list");
 // Referências do cabeçalho. O JS altera classes, atributos ARIA e o logótipo.
 const siteHeader = document.querySelector(".site-header");
-const themeToggle = document.getElementById("theme-toggle");
 const brandLogo = document.getElementById("brand-logo");
 const menuToggle = document.getElementById("menu-toggle");
 const primaryNav = document.getElementById("primary-nav");
@@ -151,7 +460,8 @@ let db = null;
 const LOGO_LIGHT = "img/projetos/imgGerais/slogan.png";
 const LOGO_DARK = "img/projetos/imgGerais/sloganVersao2.png";
 let selectedPhoneCountry =
-	PHONE_COUNTRIES.find((country) => country.code === "PT") || PHONE_COUNTRIES[0];
+	PHONE_COUNTRIES.find((country) => country.code === "PT") ||
+	PHONE_COUNTRIES[0];
 
 // Normaliza texto para permitir pesquisa de países sem acentos e com nomes alternativos.
 function normalizeText(value) {
@@ -281,7 +591,9 @@ function updatePhoneFeedback() {
 	const hasPhone = Boolean(phoneNumberInput.value.trim());
 
 	if (!hasCountry || !hasPhone) {
-		phoneNumberInput.setCustomValidity("Preencha o telefone e selecione o país.");
+		phoneNumberInput.setCustomValidity(
+			"Preencha o telefone e selecione o país.",
+		);
 		if (phoneNumberInput.value.trim()) {
 			setFieldFeedback(
 				phoneFeedback,
@@ -564,7 +876,9 @@ function renderProjects() {
 	const previewAlbums = PROJECT_ALBUM_LIST.slice(0, GALLERY_PREVIEW_LIMIT);
 	if (!previewAlbums.length) {
 		previewGrid.appendChild(
-			createEmptyGalleryState("Nenhum álbum de projetos disponível de momento."),
+			createEmptyGalleryState(
+				"Nenhum álbum de projetos disponível de momento.",
+			),
 		);
 		return;
 	}
@@ -739,29 +1053,14 @@ function setupHeaderScroll() {
 
 // Aplica o tema global do site.
 // Aqui o JS:
-// 1) liga/desliga body.theme-dark, que altera cores via CSS;
-// 2) troca o logótipo claro/escuro;
-// 3) atualiza os atributos de acessibilidade do botão;
-// 4) grava a preferência no localStorage.
-function applyTheme(theme) {
-	const isDark = theme === "dark";
-	document.body.classList.toggle("theme-dark", isDark);
+// 1) liga body.theme-dark, que altera cores via CSS;
+// 2) troca o logótipo para o escuro.
+function applyTheme() {
+	document.body.classList.add("theme-dark");
 
 	if (brandLogo) {
-		brandLogo.src = isDark ? LOGO_DARK : LOGO_LIGHT;
+		brandLogo.src = LOGO_DARK;
 	}
-
-	if (themeToggle) {
-		themeToggle.setAttribute("aria-pressed", String(isDark));
-		themeToggle.setAttribute(
-			"aria-label",
-			isDark ? "Ativar versão clara" : "Ativar versão escura",
-		);
-	}
-
-	try {
-		window.localStorage.setItem("theme", isDark ? "dark" : "light");
-	} catch (_error) {}
 }
 
 // Fecha o menu mobile e repõe os atributos do botão hamburguer.
@@ -826,30 +1125,6 @@ function setupMobileMenu() {
 			updateBodyLock();
 		}
 	});
-}
-
-// Recupera a preferência de tema guardada e liga o clique do botão de alternância.
-function setupThemeToggle() {
-	let savedTheme = "light";
-	try {
-		const stored = window.localStorage.getItem("theme");
-		if (stored === "dark" || stored === "light") {
-			savedTheme = stored;
-		}
-	} catch (_error) {
-		savedTheme = "light";
-	}
-
-	applyTheme(savedTheme);
-
-	if (themeToggle) {
-		themeToggle.addEventListener("click", () => {
-			const nextTheme = document.body.classList.contains("theme-dark")
-				? "light"
-				: "dark";
-			applyTheme(nextTheme);
-		});
-	}
 }
 
 // Duplica a lista de serviços para criar a animação contínua do marquee.
@@ -1145,11 +1420,36 @@ function init() {
 	setupReviewRating();
 	setupFirebaseReviews();
 	setupReviewForm();
-	setupThemeToggle();
+	applyTheme();
 	setupHeaderScroll();
 	setupMobileMenu();
 	bindEvents();
 	document.getElementById("year").textContent = new Date().getFullYear();
 }
+
+// Animação automática das features do flyer promocional
+const promoCards = document.querySelectorAll(".promo-card");
+
+promoCards.forEach((card) => {
+	const features = card.querySelectorAll(".feature");
+
+	if (!features.length) {
+		return;
+	}
+
+	let index = 0;
+
+	features.forEach((feature, featureIndex) => {
+		feature.classList.toggle("active", featureIndex === 0);
+	});
+
+	setInterval(() => {
+		features[index].classList.remove("active");
+
+		index = (index + 1) % features.length;
+
+		features[index].classList.add("active");
+	}, 2000);
+});
 
 init();

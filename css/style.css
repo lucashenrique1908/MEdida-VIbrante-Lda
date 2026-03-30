@@ -1,24 +1,4 @@
 ﻿:root {
-  --bg: #f3f8ff;
-  --bg-soft: #eaf2ff;
-  --card: #ffffff;
-  --text: #123a66;
-  --muted: #4a6d94;
-  --line: #c8d9ef;
-  --accent: #2f6fff;
-  --accent-soft: #4f85ff;
-  --header-bg: rgba(255, 255, 255, 0.96);
-  --header-scrolled: rgba(231, 242, 255, 0.96);
-  --header-border: rgba(30, 64, 109, 0.2);
-  --section-dark-bg: linear-gradient(180deg, rgba(79, 133, 255, 0.09), rgba(255, 255, 255, 0.7));
-  --input-bg: #ffffff;
-  --nav-text: #1f4d81;
-  --theme-toggle-border: transparent;
-  --theme-toggle-icon-sun: #c89a2a;
-  --theme-toggle-icon-moon: #0f1a2b;
-}
-
-body.theme-dark {
   --bg: #070b12;
   --bg-soft: #0f1a2b;
   --card: #111722;
@@ -33,9 +13,9 @@ body.theme-dark {
   --section-dark-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.15));
   --input-bg: #090f18;
   --nav-text: #dce8ff;
-  --theme-toggle-border: transparent;
-  --theme-toggle-icon-sun: #d6a73b;
-  --theme-toggle-icon-moon: #dce8ff;
+  --bg-secondary: #1a2332;
+  --promo-surface: #0f1a2b;
+  --promo-border: #24344d;
 }
 
 /* Reset simples para garantir consistência de box model. */
@@ -182,103 +162,6 @@ nav a {
 
 nav a:hover {
   color: var(--accent);
-}
-
-.theme-toggle {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--theme-toggle-border);
-  border-radius: 999px;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  cursor: pointer;
-  position: relative;
-  transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* Ambos os ícones existem no HTML, mas o CSS escolhe qual deles aparece em cada tema. */
-.theme-icon {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-/* Regras partilhadas pelos SVG do botão de tema. */
-.theme-icon svg {
-  width: 100%;
-  height: 100%;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  stroke-width: 1.9;
-}
-
-/* Sol usado como ação visível no modo escuro. */
-.theme-icon-sun {
-  color: var(--theme-toggle-icon-sun);
-}
-
-.theme-icon-sun svg {
-  stroke: currentColor;
-  fill: currentColor;
-}
-
-.theme-icon-sun svg circle {
-  fill: currentColor;
-  stroke: none;
-}
-
-/* Lua usada como ação visível no modo claro. */
-.theme-icon-moon {
-  color: var(--theme-toggle-icon-moon);
-}
-
-.theme-icon-moon svg {
-  fill: currentColor;
-  stroke: none;
-}
-
-/* No modo claro, a lua é o único ícone visível. */
-.theme-toggle .theme-icon-moon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Quando o JS adiciona body.theme-dark, a lua desaparece. */
-body.theme-dark .theme-toggle .theme-icon-moon {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-/* Quando o JS adiciona body.theme-dark, o sol dourado passa a aparecer. */
-body.theme-dark .theme-toggle .theme-icon-sun {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* No modo claro, o sol fica escondido. */
-.theme-toggle .theme-icon-sun {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-/* Micro-interações do botão de tema. */
-.theme-toggle:hover {
-  transform: translateY(-1px);
-}
-
-.theme-toggle:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(47, 111, 255, 0.2);
 }
 
 /* Espaçamento vertical da secção principal. */
@@ -496,14 +379,14 @@ p {
   justify-self: start;
 }
 
-body.theme-dark .about-promo-card {
+.about-promo-card {
   background:
     linear-gradient(180deg, rgba(126, 166, 255, 0.12), rgba(17, 23, 34, 0.96)),
     var(--card);
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
 }
 
-body.theme-dark .about-promo-title {
+.about-promo-title {
   color: #f7faff;
   animation: promoDarkBlink 1.15s steps(1, end) infinite;
 }
@@ -534,9 +417,8 @@ body.theme-dark .about-promo-title {
 
 /* Grelha de projetos usada tanto no preview como na galeria. */
 .project-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1.1rem;
+  display: flex;
+  justify-content: space-around;
 }
 
 .project-card {
@@ -572,7 +454,8 @@ body.theme-dark .about-promo-title {
 }
 
 .project-album-trigger {
-  width: 100%;
+  display: inline-grid;
+  width: auto;
   border: 0;
   padding: 0;
   background: transparent;
@@ -593,13 +476,14 @@ body.theme-dark .about-promo-title {
   height: 230px;
   margin: 0;
   padding-inline: 0.9rem;
+  width: 150px;
 }
 
 /* Cada camada representa uma foto do preview do álbum gerado em createAlbumCard(), no JS. */
 .album-stack-photo {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 0;
   width: min(132px, calc(100% - 1.8rem));
   height: 100%;
   border-radius: 16px;
@@ -613,21 +497,21 @@ body.theme-dark .about-promo-title {
 
 /* Primeira camada ao fundo: fica mais discreta para não competir com a foto principal. */
 .album-stack-photo:nth-child(1) {
-  transform: translateX(calc(-50% - 14px)) translateY(12px);
+  transform: translateX(-14px) translateY(12px);
   opacity: 0.26;
   filter: saturate(0.82) brightness(0.9);
 }
 
 /* Segunda camada intermediária: ainda visível, mas com menos força visual que a capa frontal. */
 .album-stack-photo:nth-child(2) {
-  transform: translateX(-50%) translateY(6px);
+  transform: translateX(-7px) translateY(6px);
   opacity: 0.5;
   filter: saturate(0.9) brightness(0.96);
 }
 
 /* Terceira camada frontal: recebe o foco principal e fica totalmente nítida. */
 .album-stack-photo:nth-child(3) {
-  transform: translateX(calc(-50% + 14px));
+  transform: translateX(0) translateY(0);
   opacity: 1;
   z-index: 3;
   filter: none;
@@ -680,19 +564,19 @@ body.theme-dark .about-promo-title {
 }
 
 /* No hover, a pilha abre só um pouco mais, sem invadir visualmente o álbum vizinho. */
-.project-album-trigger:hover .album-stack-photo:nth-child(1) {
-  transform: translateX(calc(-50% - 24px)) translateY(10px);
+.project-album-trigger:has(.album-stack:hover) .album-stack-photo:nth-child(1) {
+  transform: translateX(-24px) translateY(10px);
 }
 
-.project-album-trigger:hover .album-stack-photo:nth-child(2) {
-  transform: translateX(-50%) translateY(4px);
+.project-album-trigger:has(.album-stack:hover) .album-stack-photo:nth-child(2) {
+  transform: translateX(-12px) translateY(4px);
 }
 
-.project-album-trigger:hover .album-stack-photo:nth-child(3) {
-  transform: translateX(calc(-50% + 24px));
+.project-album-trigger:has(.album-stack:hover) .album-stack-photo:nth-child(3) {
+  transform: translateX(0);
 }
 
-.project-album-trigger:hover .album-stack img {
+.project-album-trigger:has(.album-stack:hover) .album-stack img {
   transform: scale(1.04);
 }
 
@@ -1168,20 +1052,41 @@ body.theme-dark .about-promo-title {
   background: #0c1220;
   color: #fff;
   min-height: 44px;
-  padding: 0 1rem;
+  width: fit-content;
+  padding: 0 0.8rem;
   border-radius: 999px;
   cursor: pointer;
+  flex: 0 0 auto;
 }
 
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: flex-start;
+  gap: 1.8rem 1.4rem;
   max-height: 82vh;
   overflow: auto;
-  padding-right: 0.2rem;
+  padding: 0.35rem 0.2rem 0.8rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  align-items: flex-start;
+}
+
+.gallery-grid > .project-album-card {
+  flex: 0 1 calc(25% - 1.6rem);
+  max-width: 240px;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-grid.is-album-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+  padding: 0.8rem 0.45rem 1rem 0.2rem;
+  justify-content: start;
 }
 
 .gallery-grid::-webkit-scrollbar {
@@ -1189,11 +1094,58 @@ body.theme-dark .about-promo-title {
   height: 0;
 }
 
-.gallery-grid.is-album-view {
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  align-items: start;
-  gap: 1.25rem;
-  padding: 0.8rem 0.45rem 1rem 0.2rem;
+@media (max-width: 1100px) {
+  .gallery-grid > .project-album-card {
+    flex-basis: calc(33.333% - 1.4rem);
+  }
+}
+
+@media (max-width: 780px) {
+  .gallery-grid {
+    gap: 1.3rem 1rem;
+  }
+
+  .gallery-grid > .project-album-card {
+    flex-basis: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 650px) {
+  .project-grid {
+    display: block;
+  }
+
+  .project-grid > .project-album-card {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 1.8rem;
+  }
+
+  .project-grid > .project-album-card .project-album-trigger {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .project-grid > .project-album-card .album-stack {
+    margin: 0 auto;
+  }
+
+  .project-grid > .project-album-card .info,
+  .project-grid > .project-album-card .album-meta,
+  .project-grid > .project-album-card .album-meta h3,
+  .project-grid > .project-album-card .album-meta p {
+    text-align: center;
+  }
+
+  .project-grid > .project-album-card .album-meta {
+    justify-items: center;
+  }
+
+  .project-grid > .project-album-card .album-count {
+    justify-self: center;
+  }
 }
 
 /* Cartões individuais exibidos dentro do álbum aberto; o JS define o deslocamento horizontal. */
@@ -1329,7 +1281,7 @@ body.theme-dark .about-promo-title {
   }
 
   .project-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, 180px);
   }
 
   .gallery-toolbar {
@@ -1439,13 +1391,6 @@ body.theme-dark .about-promo-title {
     font-size: 1.05rem;
   }
 
-  .nav-actions .theme-toggle {
-    position: absolute;
-    top: 1.15rem;
-    right: min(80vw + 1rem, calc(100vw - 4.6rem));
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
   .hero {
@@ -1480,7 +1425,7 @@ body.theme-dark .about-promo-title {
   }
 
   .gallery-back {
-    width: 100%;
+    width: fit-content;
   }
 
   .gallery-grid {
@@ -1498,11 +1443,6 @@ body.theme-dark .about-promo-title {
 
   body.menu-open .nav-actions nav {
     transform: translateX(0);
-  }
-
-  body.menu-open .nav-actions .theme-toggle {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   body.menu-open .menu-toggle span:nth-child(1) {
@@ -1537,23 +1477,23 @@ body.theme-dark .about-promo-title {
 
   /* No mobile menor, as capas podem abrir mais para reforçar o efeito de cartas. */
   .album-stack-photo:nth-child(1) {
-    transform: translateX(calc(-50% - 22px)) translateY(12px);
+    transform: translateX(-22px) translateY(12px);
   }
 
   .album-stack-photo:nth-child(2) {
-    transform: translateX(-50%) translateY(6px);
+    transform: translateX(-11px) translateY(6px);
   }
 
   .album-stack-photo:nth-child(3) {
-    transform: translateX(calc(-50% + 22px));
+    transform: translateX(0) translateY(0);
   }
 
-  .project-album-trigger:hover .album-stack-photo:nth-child(1) {
-    transform: translateX(calc(-50% - 34px)) translateY(10px);
+  .project-album-trigger:has(.album-stack:hover) .album-stack-photo:nth-child(1) {
+    transform: translateX(-34px) translateY(10px);
   }
 
-  .project-album-trigger:hover .album-stack-photo:nth-child(3) {
-    transform: translateX(calc(-50% + 34px));
+  .project-album-trigger:has(.album-stack:hover) .album-stack-photo:nth-child(3) {
+    transform: translateX(0);
   }
 
   /* No mobile estreito, a apresentação dos álbuns fica totalmente centralizada. */
@@ -1582,13 +1522,49 @@ body.theme-dark .about-promo-title {
     max-width: min(84vw, 320px);
   }
 
-  .nav-actions .theme-toggle {
-    right: 1rem;
+  /* O álbum aberto passa para uma coluna, remove o deslocamento lateral e some com a barra inferior. */
+  .gallery-grid {
+    gap: 0.9rem;
+    max-height: 74vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0.55rem 0 0.8rem;
+    scrollbar-width: none;
   }
 
-  /* O álbum aberto passa para uma coluna, remove o deslocamento lateral e some com a barra inferior. */
-  .gallery-grid,
+  .gallery-grid > .project-album-card {
+    flex-basis: 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  .gallery-grid > .project-album-card .project-album-trigger {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .gallery-grid > .project-album-card .album-stack {
+    margin: 0 auto;
+  }
+
+  .gallery-grid > .project-album-card .info,
+  .gallery-grid > .project-album-card .album-meta,
+  .gallery-grid > .project-album-card .album-meta h3,
+  .gallery-grid > .project-album-card .album-meta p {
+    text-align: center;
+  }
+
+  .gallery-grid > .project-album-card .album-meta {
+    justify-items: center;
+  }
+
+  .gallery-grid > .project-album-card .album-count {
+    justify-self: center;
+  }
+
   .gallery-grid.is-album-view {
+    display: grid;
     grid-template-columns: 1fr;
     gap: 0.9rem;
     max-height: 74vh;
@@ -1656,5 +1632,551 @@ body.theme-dark .about-promo-title {
 
   .photo-lightbox-next {
     right: 0.55rem;
+  }
+}
+
+/* Flyer Promocional Styles */
+:root {
+  --promo-bg: #072f4f;
+  --promo-bg-soft: #0b4f84;
+  --promo-surface: #ffffff;
+  --promo-surface-soft: #eef8ff;
+  --promo-primary: #0a7cc2;
+  --promo-primary-dark: #084f7f;
+  --promo-accent: #17b66d;
+  --promo-accent-soft: #dbf8e8;
+  --promo-text: #133047;
+  --promo-text-soft: #507089;
+  --promo-border: rgba(10, 124, 194, 0.16);
+  --promo-shadow: 0 24px 70px rgba(2, 23, 39, 0.18);
+  --promo-radius-lg: 32px;
+  --promo-radius-md: 20px;
+}
+
+#promocoes {
+  background: var(--bg);
+  padding: 4rem 0;
+}
+
+#promocoes {
+  background: var(--bg-soft);
+}
+
+.promo-card {
+  width: 100%;
+  padding: 36px;
+  border-radius: var(--promo-radius-lg);
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--promo-shadow);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.promo-card::before,
+.promo-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.promo-card::before {
+  width: 280px;
+  height: 280px;
+  top: -120px;
+  right: -90px;
+  background: radial-gradient(circle, rgba(23, 182, 109, 0.14), transparent 70%);
+}
+
+.promo-card::after {
+  width: 320px;
+  height: 320px;
+  bottom: -180px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(10, 124, 194, 0.18), transparent 70%);
+}
+
+.promo-header,
+.promo-hero,
+.features-grid,
+.promo-details {
+  position: relative;
+  z-index: 1;
+}
+
+.promo-header {
+  text-align: center;
+}
+
+.promo-kicker {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--promo-accent);
+}
+
+.promo-title {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(2.1rem, 4vw, 4rem);
+  line-height: 0.98;
+  color: var(--promo-primary-dark);
+}
+
+.promo-subtitle {
+  max-width: none;
+  margin: 14px 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--promo-text-soft);
+}
+
+.promo-hero {
+  display: flex;
+  flex-direction: row;
+  gap: 26px;
+  align-items: stretch;
+}
+
+.promo-product,
+.promo-summary,
+.details-card {
+  border-radius: var(--promo-radius-md);
+  border: 1px solid var(--promo-border);
+  background: var(--card);
+}
+.details-list  li{
+  color: var(--promo-surface);
+}
+
+.promo-product {
+  position: relative;
+  padding: 1rem 1.5rem;
+  min-height: 320px;
+  background:
+    linear-gradient(160deg, rgba(10, 124, 194, 0.1), rgba(23, 182, 109, 0.14)),
+    var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+
+/* Novo grid de imagens da promoção */
+.promo-images-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+  width: 100%;
+ 
+  margin: 0 auto 18px auto;
+  aspect-ratio: 2/1;
+}
+
+/* CSS mágico para remover fundo visual das imagens */
+.promo-images-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background: transparent;
+    border-radius: 20px;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+.promo-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* remove o branco e preto visualmente */
+    mix-blend-mode: lighten;
+    filter: contrast(1.1) brightness(1.05) drop-shadow(0 15px 25px rgba(0, 0, 0, 0.45));
+}
+
+@media (max-width: 900px) {
+  .promo-images-grid {
+    max-width: 100%;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .promo-images-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    aspect-ratio: unset;
+  }
+}
+
+@media (max-width: 520px) {
+  .promo-images-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
+
+.promo-title,
+.promo-subtitle {
+  color: #fff !important;
+}
+
+.details-card h2 {
+  color: #fff !important;
+}
+
+.details-card--info {
+  background: var(--bg-primary, #111722) !important;
+  color: #fff !important;
+}
+
+.details-card--info p,
+.details-card--info ul {
+  color: #fff !important;
+}
+
+.product-badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--promo-primary);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.product-illustration {
+  width: min(100%, 520px);
+  height: auto;
+  filter: drop-shadow(0 20px 28px rgba(10, 62, 97, 0.16));
+}
+
+.promo-summary {
+  padding: 24px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+  flex: 0 0 280px;
+}
+
+.energy-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 18px 22px;
+  border-radius: 24px;
+  color: #ffffff;
+  background: linear-gradient(145deg, #17b66d, #0b8e88);
+  box-shadow: 0 18px 35px rgba(23, 182, 109, 0.25);
+  animation: pulse-energy 2.1s ease-in-out infinite;
+}
+
+.energy-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.energy-badge strong {
+  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  line-height: 1;
+}
+
+.promo-price-block {
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #08385d, #06263e);
+  color: #ffffff;
+  box-shadow: 0 18px 35px rgba(79, 180, 239, 0.18);
+  animation: pulse-energy 2.1s ease-in-out infinite;
+}
+
+.price-label {
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.promo-price {
+  font-size: clamp(3rem, 8vw, 5.4rem);
+  font-weight: 800;
+  line-height: 0.95;
+  color: #ffffff;
+  text-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.price-note {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #cfe9f7;
+}
+
+.features-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.feature {
+  min-height: 80px;
+  padding: 12px 14px;
+  border-radius: 22px;
+  background: var(--bg-secondary, #1a2332);
+  border: 1px solid var(--promo-border);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transform: scale(1);
+  opacity: 0.7;
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+}
+
+.feature.active {
+  transform: scale(1.2);
+  opacity: 1;
+  background: transparent;
+  border-color: rgba(47, 111, 255, 0.4);
+  box-shadow: 0 18px 30px rgba(47, 111, 255, 0.16);
+}
+
+.icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 3rem;
+  height: 3rem;
+}
+
+.icon svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icon-stacked {
+  gap: 0;
+}
+
+.icon-stacked svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.feature p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.promo-details {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.details-card {
+  padding: 24px;
+  background: var(--card);
+  flex: 1;
+}
+
+.details-card h2 {
+  margin: 0 0 16px;
+  font-size: 1.12rem;
+  color: var(--promo-primary-dark);
+}
+
+.details-list,
+.exclusions-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--promo-text);
+}
+
+.details-list li,
+.exclusions-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.details-card--info {
+  background: linear-gradient(180deg, #f7fcff, #edf8f4);
+}
+
+.details-card--info p {
+  margin: 0 0 10px;
+  color: var(--promo-text);
+  line-height: 1.5;
+}
+
+.promo-divider {
+  height: 1px;
+  margin: 18px 0;
+  background: linear-gradient(90deg, rgba(10, 124, 194, 0.18), rgba(23, 182, 109, 0.28));
+}
+
+@keyframes pulse-energy {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 18px 35px rgba(23, 182, 109, 0.25);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 22px 40px rgba(23, 182, 109, 0.38);
+  }
+}
+
+@media (max-width: 980px) {
+  .promo-card {
+    padding: 28px;
+  }
+
+  .promo-hero,
+  .promo-details {
+    flex-direction: column;
+  }
+
+  .promo-summary {
+    flex: none;
+  }
+
+  .features-grid {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 640px) {
+  #promocoes {
+    padding: 2rem 0;
+  }
+  
+
+  .promo-card {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .promo-title {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+  }
+
+  .promo-product {
+    min-height: 250px;
+    padding: 20px;
+  }
+
+  .promo-summary,
+  .details-card {
+    padding: 20px;
+  }
+
+  .features-grid {
+    gap: 12px;
+  }
+
+  .feature {
+    min-height: 70px;
+    padding: 10px 12px;
+  }
+
+  .feature.active {
+    transform: scale(1.1);
+  }
+
+  .promo-details {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .promo-section {
+    min-height: auto;
+    padding: 0;
+  }
+
+  .promo-card {
+    width: 100%;
+    padding: 18mm;
+    box-shadow: none;
+    border: 1px solid #b9d8eb;
+    background: #ffffff;
+  }
+
+  .promo-card::before,
+  .promo-card::after {
+    display: none;
+  }
+
+  .promo-product,
+  .promo-summary,
+  .details-card,
+  .feature {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .energy-badge,
+  .promo-price-block {
+    color: #0d2f49;
+    background: #eef8ff !important;
+    border: 1px solid #c2dcec;
+  }
+
+  .promo-price {
+    color: #0a7cc2;
+    text-shadow: none;
+  }
+
+  .feature {
+    opacity: 1;
+    transform: scale(1);
+    break-inside: avoid;
+  }
+
+  .feature.active {
+    transform: scale(1);
   }
 }
