@@ -410,6 +410,7 @@ const galleryTitle = document.getElementById("gallery-title");
 const gallerySubtitle = document.getElementById("gallery-subtitle");
 const galleryBackButton = document.getElementById("gallery-back");
 const openFullGalleryButton = document.getElementById("open-full-gallery");
+const promoImages = document.querySelectorAll(".promo-images-grid .promo-img");
 // Referências para os serviços e formulário de contacto.
 const marqueeTrack = document.getElementById("marquee-track");
 const serviceSelect = document.getElementById("servico-select");
@@ -1371,6 +1372,14 @@ function bindEvents() {
 	if (photoLightbox) {
 		photoLightbox.addEventListener("click", (event) => {
 			if (event.target === photoLightbox) closePhotoLightbox();
+		});
+	}
+
+	if (promoImages.length) {
+		promoImages.forEach((image) => {
+			image.addEventListener("click", () => {
+				openPhotoLightbox(undefined, image.currentSrc || image.src, image.alt);
+			});
 		});
 	}
 

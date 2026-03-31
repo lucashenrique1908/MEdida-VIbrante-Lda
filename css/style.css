@@ -1803,9 +1803,15 @@ p {
     width: 100%;
     height: auto;
     object-fit: contain;
+    cursor: zoom-in;
+    transition: transform 0.2s ease, filter 0.2s ease;
     /* remove o branco e preto visualmente */
     mix-blend-mode: lighten;
     filter: contrast(1.1) brightness(1.05) drop-shadow(0 15px 25px rgba(0, 0, 0, 0.45));
+}
+
+.promo-img:hover {
+    transform: scale(1.02);
 }
 
 @media (max-width: 900px) {
