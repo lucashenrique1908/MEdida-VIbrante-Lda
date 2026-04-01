@@ -23,14 +23,19 @@
 		<header class="site-header">
 			<div class="container nav-wrap">
 				<!-- A imagem do logótipo é trocada pelo JavaScript em applyTheme(), em js/script.js. -->
-				<a href="#topo" class="logo" aria-label="Medida Vibrante Lda">
-					<img
-						id="brand-logo"
-						src="img/projetos/imgGerais/slogan.png"
-						alt="Slogan da Medida Vibrante Lda"
-					/>
-					<span class="company-name">Medida Vibrante Lda</span>
-				</a>
+				   <div class="logo-title-wrap">
+					   <a href="#topo" class="logo" aria-label="Medida Vibrante Lda">
+						   <img
+							   id="brand-logo"
+							   src="img/projetos/imgGerais/slogan.png"
+							   alt="Slogan da Medida Vibrante Lda"
+						   />
+						   <span class="company-name">Medida Vibrante Lda</span>
+					   </a>
+					   <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema" title="Alternar tema" style="background: none; border: none; cursor: pointer; margin-left: 0.18rem; display: flex; align-items: center; justify-content: center;">
+						   <!-- SVG será inserido via JS -->
+					   </button>
+				   </div>
 				<!-- Botão hamburguer visível apenas no mobile; o JS abre/fecha o drawer com a classe body.menu-open. -->
 				<button
 					id="menu-toggle"
@@ -44,21 +49,22 @@
 					<span></span>
 					<span></span>
 				</button>
-				<div class="nav-actions">
-					<!-- Menu principal. No mobile, este bloco vira um painel lateral de 80% da largura. -->
-					<nav id="primary-nav">
-					<a href="#promocoes">Promoções</a>
-					<a href="#sobre">Sobre</a>
-					<a href="#projetos">Projetos</a>
-					<a href="#servicos">Serviços</a>
-					<a href="#formulario">Formulário</a>
-					<a href="#avaliacoes">Avaliações</a>
-					<a href="#zonas">Zonas</a>
-					</nav>
-					<button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema" title="Alternar tema" style="background: none; border: none; cursor: pointer; margin-left: 1rem; display: flex; align-items: center; justify-content: center;">
-						<!-- SVG será inserido via JS -->
-					</button>
-				</div>
+				   <div class="nav-actions">
+					   <!-- Menu principal. No mobile, este bloco vira um painel lateral de 80% da largura. -->
+					   <nav id="primary-nav">
+					   <a href="#promocoes">Promoções</a>
+					   <a href="#sobre">Sobre</a>
+					   <a href="#projetos">Projetos</a>
+					   <a href="#servicos">Serviços</a>
+					   <a href="#formulario">Formulário</a>
+					   <a href="#avaliacoes">Avaliações</a>
+					   <a href="#zonas">Zonas</a>
+					   </nav>
+				   </div>
+				   <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema" title="Alternar tema" style="background: none; border: none; cursor: pointer; margin-left: 0.08rem; display: flex; align-items: center; justify-content: center;">
+					   <!-- SVG será inserido via JS -->
+				   </button>
+
 			</div>
 		</header>
 

@@ -1,4 +1,250 @@
-﻿.theme-light .theme-toggle svg path {
+﻿/* Agrupamento do logo, título e botão de tema */
+.logo-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.12rem;
+}
+@media (max-width: 370px) {
+  .logo-title-wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.08rem !important;
+  }
+  .logo {
+    margin-right: 0.08rem !important;
+  }
+  .theme-toggle {
+    margin-left: 0.08rem !important;
+  }
+}
+@media (max-width: 370px) {
+  .site-header .nav-wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    padding: 0.1rem 0.2rem !important;
+    min-height: 38px !important;
+  }
+  .logo {
+    flex: 0 0 auto !important;
+    margin-right: 0.18rem !important;
+    align-items: center !important;
+  }
+  .logo img {
+    width: 38px !important;
+    min-width: 28px !important;
+    max-width: 38px !important;
+    height: 28px !important;
+    margin-right: 0.12rem !important;
+  }
+  .company-name {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.01em !important;
+    margin-right: 0.12rem !important;
+  }
+  .nav-actions {
+    gap: 0.1rem !important;
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+  .nav-actions nav {
+    display: none !important;
+  }
+  .menu-toggle, .theme-toggle {
+    display: inline-flex !important;
+    vertical-align: middle !important;
+  }
+  .menu-toggle {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 0 !important;
+    margin-left: 0.08rem !important;
+    border-radius: 7px !important;
+    gap: 0.12rem !important;
+    order: 2;
+  }
+  .theme-toggle {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    margin: 0 0.08rem 0 0.08rem !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    order: 3;
+  }
+  .theme-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .menu-toggle span {
+    width: 14px !important;
+    height: 2px !important;
+  }
+}
+@media (max-width: 370px) {
+  .site-header .nav-wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    padding: 0.1rem 0.2rem !important;
+    min-height: 38px !important;
+  }
+  .logo {
+    flex: 0 0 auto !important;
+    margin-right: 0.18rem !important;
+    align-items: center !important;
+  }
+  .logo img {
+    width: 38px !important;
+    min-width: 28px !important;
+    max-width: 38px !important;
+    height: 28px !important;
+    margin-right: 0.12rem !important;
+  }
+  .company-name {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.01em !important;
+    margin-right: 0.12rem !important;
+  }
+  .nav-actions {
+    gap: 0.1rem !important;
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+  .nav-actions nav {
+    display: none !important;
+  }
+  .menu-toggle, .theme-toggle {
+    display: inline-flex !important;
+    vertical-align: middle !important;
+  }
+  .menu-toggle {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 0 !important;
+    margin-left: 0.08rem !important;
+    border-radius: 7px !important;
+    gap: 0.12rem !important;
+    order: 2;
+  }
+  .theme-toggle {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    margin: 0 0.08rem 0 0.08rem !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    order: 3;
+  }
+  .theme-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .menu-toggle span {
+    width: 14px !important;
+    height: 2px !important;
+  }
+}
+@media (max-width: 370px) {
+  .site-header .nav-wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    padding: 0.1rem 0.2rem !important;
+    min-height: 38px !important;
+  }
+  .logo {
+    flex: 0 0 auto !important;
+    margin-right: 0.18rem !important;
+    align-items: center !important;
+  }
+  .logo img {
+    width: 38px !important;
+    min-width: 28px !important;
+    max-width: 38px !important;
+    height: 28px !important;
+    margin-right: 0.12rem !important;
+  }
+  .company-name {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.01em !important;
+    margin-right: 0.12rem !important;
+  }
+  .theme-toggle {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    margin: 0 0.08rem !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .theme-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .menu-toggle {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 0 !important;
+    margin-left: 0.08rem !important;
+    border-radius: 7px !important;
+    gap: 0.12rem !important;
+  }
+  .menu-toggle span {
+    width: 14px !important;
+    height: 2px !important;
+  }
+  .nav-actions {
+    gap: 0.1rem !important;
+  }
+}
+@media (max-width: 370px) {
+  .site-header .theme-toggle {
+    display: none !important;
+  }
+}
+@media (max-width: 370px) {
+  .site-header .theme-toggle {
+    position: static !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center;
+    transform: none !important;
+  }
+  #theme-toggle-mobile-wrap {
+    transform: translateY(-50%);
+    margin-left: 0;
+    z-index: 61;
+  }
+  .site-header .logo {
+    margin-right: 0.5rem;
+  }
+  .site-header .nav-actions {
+    flex: 1 1 auto;
+  }
+}
+.theme-light .theme-toggle svg path {
   /* Garante que só a lua é afetada, pois só ela tem <path> no SVG */
   /* Opcional: pode aumentar o viewBox, mas aqui aumentamos o tamanho visual */
 }
