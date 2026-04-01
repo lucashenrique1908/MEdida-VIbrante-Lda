@@ -1,4 +1,93 @@
-﻿:root {
+﻿.theme-light .theme-toggle svg path {
+  /* Garante que só a lua é afetada, pois só ela tem <path> no SVG */
+  /* Opcional: pode aumentar o viewBox, mas aqui aumentamos o tamanho visual */
+}
+.theme-light .theme-toggle svg {
+  width: 27px !important;
+  height: 27px !important;
+  transition: width 0.18s, height 0.18s;
+}
+.theme-light .lightbox,
+.theme-light .lightbox * {
+  color: #fff !important;
+}
+.theme-light .project-grid .album-meta,
+.theme-light .project-grid .album-meta *,
+.theme-light .project-grid .info {
+  color: #111 !important;
+}
+.theme-light .project-grid .album-meta,
+.theme-light .project-grid .album-meta *,
+.theme-light .project-grid .info {
+  color: #111 !important;
+}
+.theme-light .lightbox .album-meta,
+.theme-light .lightbox .album-meta *,
+.theme-light .lightbox .album-meta p,
+.theme-light .lightbox .info {
+  color: #fff !important;
+}
+.theme-light .project-card .album-meta,
+.theme-light .project-card .album-meta *,
+.theme-light .project-card .info {
+  color: #111 !important;
+}
+.theme-light .lightbox,
+.theme-light .lightbox *,
+.theme-light .gallery-title,
+.theme-light .gallery-subtitle,
+.theme-light .gallery-back,
+.theme-light .gallery-empty,
+.theme-light .project-card,
+.theme-light .album-meta,
+.theme-light .album-meta *,
+.theme-light .info {
+  color: #fff !important;
+}
+.theme-light .promo-product {
+  background: #0f1a2b !important;
+}
+.theme-light .promo-title,
+.theme-light .promo-subtitle,
+.theme-light .promo-details,
+.theme-light .promo-details * {
+  color: #111 !important;
+}
+
+.theme-light .promo-images-grid {
+  background: #0f1a2b !important;
+  border-radius: 12px;
+  padding: 10px 0;
+}
+
+.theme-light .amadora-link {
+  color: #08385d !important;
+  text-decoration: underline;
+}
+
+.theme-light .details-card--info {
+  background: transparent !important;
+}
+.theme-light .details-card--info p,
+.theme-light .details-card--info strong {
+  color: #111 !important;
+}
+
+.theme-light .details-card h2,
+.theme-light .details-list li {
+  color: #111 !important;
+}
+.theme-toggle {
+  padding: 0.18rem 0.18rem;
+  border-radius: 50%;
+  transition: background 0.18s;
+}
+.theme-toggle:hover, .theme-toggle:focus {
+  background: rgba(255, 211, 79, 0.13);
+  outline: none;
+}
+
+:root {
   --bg: #070b12;
   --bg-soft: #0f1a2b;
   --card: #111722;
@@ -16,6 +105,26 @@
   --bg-secondary: #1a2332;
   --promo-surface: #0f1a2b;
   --promo-border: #24344d;
+}
+
+.theme-light {
+  --bg: #fff;
+  --bg-soft: #f6f8fa;
+  --card: #f9fafb;
+  --text: #111;
+  --muted: #08385d;
+  --line: #dbe6f2;
+  --accent: #2f6fff;
+  --accent-soft: #1451d6;
+  --header-bg: rgba(255,255,255,0.97);
+  --header-scrolled: rgba(246,248,250,0.97);
+  --header-border: rgba(8,56,93,0.12);
+  --section-dark-bg: linear-gradient(180deg, rgba(8,56,93,0.03), rgba(0,0,0,0.01));
+  --input-bg: #f6f8fa;
+  --nav-text: #08385d;
+  --bg-secondary: #f6f8fa;
+  --promo-surface: #f6f8fa;
+  --promo-border: #dbe6f2;
 }
 
 /* Reset simples para garantir consistência de box model. */
